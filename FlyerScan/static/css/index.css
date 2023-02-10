@@ -1,0 +1,84 @@
+
+/* 
+.navbar a {
+    color: white;
+}
+
+.navbar .form-control {
+    background-color: #424242;
+    color: white;
+}
+
+.navbar .btn-outline-success {
+    color: white;
+    background-color: #0077C9;
+    border-color: #0077C9;
+}
+
+.card {
+    background-color: #424242;
+    color: white;
+}
+
+.card-img-top {
+    filter: brightness(0.5);
+}
+
+.card-title, .card-text {
+    color: white;
+}
+
+.btn-primary {
+    background-color: #0077C9;
+    border-color: #0077C9;
+} */
+
+
+a.card {
+    display: box;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    cursor: pointer;
+    pointer-events: auto;
+  
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 8px 0 rgba(238, 255, 0, 0.2), 0 6px 20px 0 rgba(211, 194, 12, 0.19);
+
+  }
+
+  .card-text {
+    color: #000; /* black */
+    }
+
+    .card-columns {
+        color: rgb(255, 0, 0);
+        }
+
+/* Add a class to the card element when it is expanded */
+/* .card.expanded {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    max-height: none;
+    padding: 1rem;
+    z-index: 1;
+    
+    pointer-events: auto;
+  }
+   */
+  
+  /* Add a class to the card close button */
+  /* .card.expanded .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem;
+    cursor: pointer;
+  } */
+
+
