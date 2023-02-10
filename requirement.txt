@@ -1,0 +1,8 @@
+flask
+Flask-SQLAlchemy
+flask-login
+Flask-Security
+flask_cors
+flask_admin
+email_validator
+flask_uploads
