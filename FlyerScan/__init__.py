@@ -23,12 +23,12 @@ def create_app():
     # app.register_blueprint(views, url_prefix='/')
     # app.register_blueprint(auth, url_prefix='/')
 
-    # from .models import Users
+    from .models import Users
 
-    # from .admin import appnamey
-    # appnamey(app)
+    from .admin import appnamey
+    appnamey(app)
 
-    #create_database(app)
+    create_database(app)
 
     CORS(app)
     
@@ -36,9 +36,9 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    # @login_manager.user_loader
-    # def load_user(id):
-    #     return Users.query.get(int(id))
+    @login_manager.user_loader
+    def load_user(id):
+        return Users.query.get(int(id))
 
     return app
 

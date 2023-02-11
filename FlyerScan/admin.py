@@ -3,7 +3,7 @@ from flask_admin import Admin, AdminIndexView, expose
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user, UserMixin
 from flask_security import Security, SQLAlchemyUserDatastore, RoleMixin, login_required, current_user
-from . import db, app
+from . import db
 import json
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.model import BaseModelView
@@ -11,7 +11,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash
 from sqlalchemy import inspect
 
-from .models import Users, Role # Category, Post, Comment, Reply, Upvote
+from .models import Users, Role, ScanHistory
 
 class Administrator(ModelView):
 	@login_required
@@ -35,21 +35,14 @@ class MyAdminView(AdminIndexView):
 		arg1 = 'Hello'
 		return self.render('adminhome.html', arg1=arg1)
 
-
-user_datastore = SQLAlchemyUserDatastore(db)
-
+user_datastore = SQLAlchemyUserDatastore(db, Users, Role)
 
 def appnamey(Daname):
 	admin = Admin(Daname, name='Admin', template_mode='bootstrap3', index_view=MyAdminView()) 
 
 	admin.add_view(Administrator(Users, db.session))
 	admin.add_view(Administrator(Role, db.session))
-# 	admin.add_view(Administrator(Category, db.session))
-# 	admin.add_view(Administrator(Post, db.session))
-# 	admin.add_view(Administrator(Comment, db.session))
-# 	admin.add_view(Administrator(Reply, db.session))
-# 	admin.add_view(Administrator(Upvote, db.session))
-
+	admin.add_view(Administrator(ScanHistory, db.session))
 
 
 def superuserNewDB(Daname):
@@ -63,7 +56,7 @@ def superuserNewDB(Daname):
 		test_user = user_datastore.create_user(
 			username='Admin',
 			email='admin@admin.com',
-			password = generate_password_hash('admin', method='sha256'),)
-			# roles=[user_role, super_user_role]
-			# )
+			password = generate_password_hash('admin', method='sha256'),
+			roles=[user_role, super_user_role]
+			)
 		db.session.commit()
