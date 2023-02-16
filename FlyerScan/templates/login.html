@@ -1,0 +1,22 @@
+
+{% block title %} Login{% endblock %}
+
+<h1>{% block header %}{% endblock %}</h1>
+{% block body %}
+
+  <div class="login-form">
+    
+    <h2>Login</h2>
+    <div></div>
+    
+    <form method="POST">
+      <h3><label for="email">Username</label> </h3>
+      <input type="text" id="email" name="email" value="{{ request.form.email }}">
+
+      <h3><label for="password">Password</label></h3>
+      <input type="password" id="password" name="password" value="{{ request.form.password }}">
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+{% endblock %}
