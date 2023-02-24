@@ -4,6 +4,10 @@ from os import path
 from flask_login import LoginManager
 from flask_cors import CORS
 from flask_admin import Admin
+from dotenv import load_dotenv
+from flask_dance.contrib.github import make_github_blueprint
+import os
+load_dotenv()
 
 db = SQLAlchemy()
 DB_NAME = "FlyerScanApp.sqlite"
@@ -17,11 +21,13 @@ def create_app():
 
     db.init_app(app)
 
-    # from .views import views
+    from .views import views
     from .auth import auth
+    github_blueprint = make_github_blueprint(client_id=os.getenv('CLIENT_ID'), client_secret=os.getenv('CLIENT_SECRET'))
 
-    # app.register_blueprint(views, url_prefix='/')
+    app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
+    app.register_blueprint(github_blueprint, url_prefix='/github_login')
 
     from .models import Users
 
