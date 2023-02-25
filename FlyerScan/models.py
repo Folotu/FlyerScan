@@ -23,14 +23,14 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String, unique=True, nullable=False)
     password = db.Column(db.String(150))
     active = db.Column(db.Boolean())
-    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
+    roles_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic', cascade="all, delete"))
         
     def has_roles(self, *args):
         return set(args).issubset({role.name for role in self.roles})
                             
     def __repr__(self):
             return '<User %r>' % self.username
-
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer(), primary_key=True)

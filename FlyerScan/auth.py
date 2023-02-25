@@ -18,7 +18,7 @@ def login():
             if check_password_hash(user.password, password):
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
-                if current_user.roles[0].name == 'superuser':
+                if len(current_user.roles) == 2:
                     return redirect(url_for('admin.index'))
                 else:
                     return redirect(url_for('views.index'))
@@ -51,7 +51,7 @@ def github_login():
             if user:
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
-                if current_user.roles[0].name == 'superuser':
+                if len(current_user.roles) == 2:
                     return redirect(url_for('admin.index'))
                 else:
                     return redirect(url_for('views.index'))
@@ -71,7 +71,8 @@ def github_login():
             if user:
                 flash('Logged in successfully!', category='success')
                 login_user(user, remember=True)
-                if current_user.roles[0].name == 'superuser':
+
+                if len(current_user.roles) == 2:
                     return redirect(url_for('admin.index'))
                 else:
                     return redirect(url_for('views.index'))
