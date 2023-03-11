@@ -1,0 +1,12 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ics.py - http://git.io/lLljaA
+BEGIN:VEVENT
+DESCRIPTION:The event takes place on 2023-10-27. The event location is Enjoy\, Student. The event is organized by Student Affairs\, INFO\, Student Affairs\, Administration Building.
+LOCATION:['Enjoy'\, 'Student']
+ORGANIZER;CN=Student Affairs INFO Student Affairs Administration Building:mailto:Student Affairs INFO Student Affairs Administration Building
+DTSTART:20231027T000000Z
+SUMMARY:Student Affairs
+UID:7a409d13-a507-4b74-bd1d-97739b0ed274@7a40.org
+END:VEVENT
+END:VCALENDAR

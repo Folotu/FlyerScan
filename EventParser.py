@@ -1,16 +1,3 @@
-# from ics import Calendar, Event
-# c = Calendar()
-# e = Event()
-# e.name = ""
-# e.begin = '2014-01-01 00:00:00'
-# c.events.add(e)
-# c.events
-
-
-# with open('my.ics', 'w') as my_file:
-#     my_file.writelines(c.serialize_iter())
-
-
 import pytesseract
 from PIL import Image
 from datetime import datetime
@@ -19,7 +6,7 @@ from nltk import ne_chunk, pos_tag, word_tokenize
 from nltk.tree import Tree
 import re
 from dateutil.parser import parse
-
+from ics import Calendar, Event
 # try: 
 #     nltk.data.find('tokenizers/punkt')
 #     nltk.data.find('averaged_perceptron_tagger')
@@ -94,13 +81,14 @@ def find_fields(text):
         'start_time': start_time,
         'end_time': end_time,
         'location': loc,
-        'desc': desc
+        'desc': desc,
+        'org': org
     }
     return fields
 
 
 try:
-    fields = find_fields(extract_text("ucmflyer3.jpg"))
+    fields = find_fields(extract_text("SampleFlyers/11.png")) 
     title = fields['title']
     date = fields['date']
     if fields['start_time'] or fields['end_time']:
@@ -111,6 +99,21 @@ try:
     # end_time = fields['end_time']
     location = fields['location']
     desc= fields['desc']
+
+    c = Calendar()
+    e = Event()
+    e.name = str(title)
+    e.begin = date
+    # e.end: ArrowLike = None,
+    # e.duration: timedelta = None,
+    e.location = str(location)
+    e.description = str(desc)
+    e.organizer = ' '.join(fields['org'])
+    c.events.add(e)
+    print(c.events)
+
+    with open('SampleIcsGens/my.ics', 'w') as my_file:
+        my_file.writelines(c.serialize_iter())
 
 except AttributeError as e:
     print("Error:", e)
