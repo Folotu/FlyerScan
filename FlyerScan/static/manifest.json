@@ -1,0 +1,29 @@
+
+  {
+    "background_color": "#ffffff",
+    "description": "A Flyer scanning app",
+    "dir": "ltr",
+    "display": "standalone",
+    "name": "Flyer Scan",
+    "orientation": "any",
+    "scope": "http://fml.pythonanywhere.com/static/",
+    "short_name": "Flyer-Scan",
+    "start_url": "http://fml.pythonanywhere.com/static/",
+    "theme_color": "#ffffff",
+    "categories": [],
+    "screenshots": [],
+    "icons": [   
+        {
+        "src": "images/icon-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      },
+      {
+        "src": "images/icon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+  ],
+    "shortcuts": [],
+    "lang": "en"
+  }
