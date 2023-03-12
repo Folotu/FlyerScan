@@ -7,6 +7,13 @@ from nltk.tree import Tree
 import re
 from dateutil.parser import parse
 from ics import Calendar, Event
+from PIL import Image, ImageDraw, ImageFont
+import requests
+import json
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 # try: 
 #     nltk.data.find('tokenizers/punkt')
 #     nltk.data.find('averaged_perceptron_tagger')
@@ -18,12 +25,92 @@ from ics import Calendar, Event
 #     nltk.download('maxent_ne_chunker')
 #     nltk.download('words')
 
+def createOverlay(image_file_name, json_file_data):
+    unicode_font_name = "Fonts/BOD_R.ttf"
+    TINT_COLOR = (255, 255, 0) 
+    TRANSPARENCY = .70  # Degree of transparency, 0-100%
+    OPACITY = int(255 * TRANSPARENCY)
+
+    img = Image.open(image_file_name)
+    img = img.convert("RGBA")
+
+    overlay = Image.new('RGBA', img.size, TINT_COLOR+(0,))
+    draw = ImageDraw.Draw(overlay)  # Create a context for drawing things on it.
+
+    #file_name_with_extension = os.path.basename(image_file_name)  # Extracts the file name with the extension
+    image_file_name_without_extension = os.path.splitext(image_file_name)[0]  # Removes the extension from the file name
+
+    for pr in json_file_data["ParsedResults"]:
+        for line in pr["TextOverlay"]["Lines"]:
+            for w in line["Words"]:
+                x1 = (w["Left"], w["Top"])
+                x2 = (x1[0] + w["Width"], x1[1] + w["Height"])
+
+                # Adjust font size according to the rectangle height
+                font_size = abs(x1[1] - x2[1])
+                font = ImageFont.truetype(unicode_font_name, int(font_size))
+                draw.rectangle((x1, x2), fill=TINT_COLOR+(OPACITY,))
+
+                text = w["WordText"]
+
+                draw.text(x1, text, fill=(255, 0, 0, 255), font=font)
+  
+    img = Image.alpha_composite(img, overlay)
+
+    output_file_name = image_file_name_without_extension + "_overlay.png"
+    img.save(output_file_name)
+    img.show()
+
+
+def ocr_space_file(filename, overlay=False, language='eng'):
+    """ OCR.space API request with local file.
+        Python3.5 - not tested on 2.7
+    :param filename: Your file path & name.
+    :param overlay: Is OCR.space overlay required in your response.
+                    Defaults to False.
+    :param api_key: OCR.space API key.
+                    Defaults to 'helloworld'.
+    :param language: Language code to be used in OCR.
+                    List of available language codes can be found on https://ocr.space/OCRAPI
+                    Defaults to 'en'.
+    :return: Result in JSON format.
+    """
+    overlay = True
+    payload = {'isOverlayRequired': overlay,
+               'apikey': os.getenv('OCR_API_KEY'),
+               'language': language,
+               }
+    with open(filename, 'rb') as f:
+        r = requests.post('https://api.ocr.space/parse/image',
+                          files={filename: f},
+                          data=payload,
+                          )
+    rDict = json.loads(r.content.decode())
+
+    if overlay:
+        createOverlay(image_file_name=filename, json_file_data=rDict)
+
+    # Extract the ParsedText value from the dictionary
+    prsdText = ""
+    if "ParsedResults" in rDict and len(rDict["ParsedResults"]) > 0 and "ParsedText" in rDict["ParsedResults"][0]:
+        prsdText = rDict["ParsedResults"][0]["ParsedText"]
+
+    return prsdText
+
+
+
 def extract_text(image_path):
     # Perform OCR using Tesseract
     with Image.open(image_path) as img:
         text = pytesseract.image_to_string(img)
         with open('output.txt', 'w') as f:
             f.write(text)
+
+    # Perform OCR using API
+    text = ocr_space_file(filename=image_path)
+    with open('outputWithAPI.txt', 'w') as f:
+            f.write(text)
+    
     return text
 
 def find_fields(text):
@@ -88,7 +175,7 @@ def find_fields(text):
 
 
 try:
-    fields = find_fields(extract_text("SampleFlyers/11.png")) 
+    fields = find_fields(extract_text("SampleFlyers/6.png")) 
     title = fields['title']
     date = fields['date']
     if fields['start_time'] or fields['end_time']:
@@ -125,3 +212,4 @@ print("Date:", date)
 print("Time:", time)
 print("Location:", location)
 print("Description:", desc)
+

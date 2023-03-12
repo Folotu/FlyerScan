@@ -2,11 +2,11 @@ BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:ics.py - http://git.io/lLljaA
 BEGIN:VEVENT
-DESCRIPTION:The event takes place on 2023-10-27. The event location is Enjoy\, Student. The event is organized by Student Affairs\, INFO\, Student Affairs\, Administration Building.
-LOCATION:['Enjoy'\, 'Student']
-ORGANIZER;CN=Student Affairs INFO Student Affairs Administration Building:mailto:Student Affairs INFO Student Affairs Administration Building
-DTSTART:20231027T000000Z
-SUMMARY:Student Affairs
-UID:7a409d13-a507-4b74-bd1d-97739b0ed274@7a40.org
+DESCRIPTION:The event takes place on 2023-02-24 from 2:00 PM to 3:30 PM. The event location is California\, SCHOOL\r. The event is organized by PM\, SCHOOL OF\, IJCMERCED\, UNIVERSITY OF CALIFORNIA\, MERCED Vanguard.
+LOCATION:['California'\, 'SCHOOL\\r']
+ORGANIZER;CN=PM SCHOOL OF IJCMERCED UNIVERSITY OF CALIFORNIA MERCED Vanguard:mailto:PM SCHOOL OF IJCMERCED UNIVERSITY OF CALIFORNIA MERCED Vanguard
+DTSTART:20230224T000000Z
+SUMMARY:Conference Center Room
+UID:994f7399-6cfd-493d-8ecf-c92de01fcc9a@994f.org
 END:VEVENT
 END:VCALENDAR
