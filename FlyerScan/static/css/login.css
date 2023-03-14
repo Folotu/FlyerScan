@@ -4,6 +4,14 @@
     margin-top: 25vh;
 }
 
+.container#login{
+    margin-top: 35vh;
+}
+.container#signup{
+    margin-top: 25vh;
+
+}
+
 #logo{
     font-size: 5rem;
     text-align: center; 
@@ -14,5 +22,21 @@
     -webkit-background-clip: text;
     -moz-background-clip: text;
     -webkit-text-fill-color: transparent; 
-    -moz-text-fill-color: transparent;}
+    -moz-text-fill-color: transparent;
+}
 
+.row#row1{
+    margin-top: 3%;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.row#row2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+    text-align: center;
+
+}

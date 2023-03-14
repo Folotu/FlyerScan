@@ -1,33 +1,59 @@
-{% extends 'base.html' %} 
-
-{% block title %}Login Page {% endblock %}
+{% extends 'base.html' %} {% block title %}Login Page {% endblock %}
 
 <h1>{% block header %}{% endblock %}</h1>
 {% block body %}
 
+<div class="container" id="login">
+  <div class="row">
+    <div class="col">
+      <h2 id="logo"><a href="/login"> FlyerScan</a></h2>
 
-    <!-- <div class="container-sm"> -->
-      <div class="login-container">
+      <form method="POST">
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="name@example.com"
+            value="{{ request.form.email }}"
+          />
+          <label for="email">Email Address</label>
+        </div>
 
-    <h2 id ='logo' >FlyerScan</h2>
-    
-    <form method="POST">
-      <div class="form-floating mb-3">
-        <input type="email" class='form-control' id="email" name="email" placeholder="name@example.com" value="{{ request.form.email }}">
-        <label for="email">Email Address</label> 
+        <div class="form-floating mb-3">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            placeholder="Password"
+            value="{{ request.form.password }}"
+          />
+          <label for="password">Password</label>
+        </div>
 
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+      </form>
+
+      <div class="container">
+        <div class="row" id="row1">
+          <a> Forgot Password? </a>
+        </div>
+        <div class="row" id="row2">
+          <div class="col-sm-2" id="small-col">
+            <a> New User?</a>
+          </div>
+
+          <div class="col-sm-2" id="small-col">
+            <a href="/signup"> Create Account</a>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <div class="form-floating mb-3"> 
-      <input type="password" class='form-control' id="password" name="password" placeholder="Password" value="{{ request.form.password }}">
-      <label for="password">Password</label>
-    </div>
-
-      <div class="d-grid gap-2"> 
-      <button type="submit" class="btn btn-primary">Login</button>
-    </div>
-    </form>
-    </div>
-    <!-- </div> -->
-  
 {% endblock %}

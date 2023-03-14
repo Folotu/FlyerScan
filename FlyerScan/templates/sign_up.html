@@ -1,53 +1,83 @@
-
 {% block title %} {% endblock %}
 
 <html>
-  <head> 
-<link rel="stylesheet" href="../static/css/login.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-</head>
+  <head>
+    <link rel="stylesheet" href="../static/css/login.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+  </head>
 
-<body> 
+  <body>
+    <h1>{% block header %}{% endblock %}</h1>
+    {% block body %}
 
-<h1>{% block header %}{% endblock %}</h1>
-{% block body %}
+    <div class="container" id="signup">
+      <div class="row">
+        <div class="col">
+          <h2 id="logo"><a href="/login"> FlyerScan</a></h2>
 
+          <form method="POST">
+            <div class="form-floating mb-3">
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="name@example.com"
+                value="{{ request.form.email }}"
+              />
+              <label for="email">Enter New Email Address</label>
+            </div>
 
-    <!-- <div class="container-sm"> -->
-      <div class="login-container">
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                name="username"
+                placeholder="username"
+                value="{{ request.form.username }}"
+              />
+              <label for="username">Enter New Username</label>
+            </div>
 
-    <h2 id="logo">FlyerScan</h2>
-    
-    <form method="POST">
-      <div class="form-floating mb-3">
-        <input type="email" class='form-control' id="email" name="email" placeholder="name@example.com" value="{{ request.form.email }}">
-        <label for="email">Enter New Email Address</label> 
+            <div class="form-floating mb-3">
+              <input
+                type="password"
+                class="form-control"
+                id="password1"
+                name="password1"
+                placeholder="Password"
+                value="{{ request.form.password1}}"
+              />
+              <label for="password">Enter New Password</label>
+            </div>
 
+            <div class="form-floating mb-3">
+              <input
+                type="password"
+                class="form-control"
+                id="password2"
+                name="password2"
+                placeholder="Password"
+                value="{{ request.form.password2 }}"
+              />
+              <label for="password">Confirm New Password</label>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary">
+                Create Account
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-
-    <div class="form-floating mb-3">
-      <input type="text" class='form-control' id="username" name="username" placeholder="username" value="{{ request.form.username }}">
-      <label for="username">Enter New Username</label> 
-
-  </div>
-
-
-    <div class="form-floating mb-3"> 
-      <input type="password" class='form-control' id="password1" name="password1" placeholder="Password" value="{{ request.form.password1}}">
-      <label for="password">Enter New Password</label>
-    </div>
-
-    <div class="form-floating mb-3"> 
-      <input type="password" class='form-control' id="password2" name="password2" placeholder="Password" value="{{ request.form.password2 }}">
-      <label for="password">Confirm New Password</label>
-    </div>
-
-      <div class="d-grid gap-2"> 
-      <button type="submit" class="btn btn-primary">Create Account</button>
-    </div>
-    </form>
-    </div>
-    <!-- </div> -->
-</body>
-  </html>
+  </body>
+</html>
 {% endblock %}
