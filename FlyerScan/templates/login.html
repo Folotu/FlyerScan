@@ -36,6 +36,18 @@
         <div class="d-grid gap-2">
           <button type="submit" class="btn btn-primary">Login</button>
         </div>
+        <div class="row" id="login-with"> 
+        <div class="col-sm-4">
+          <button type="button" class="btn btn-secondary" id="external-login"> 
+            <i class="devicon-google-plain" id="login-icon"></i>
+          Login with Google</button>
+        </div>
+        <div class="col-sm-4">
+          <button type="button" class="btn btn-secondary" id="external-login" onclick="location.href= '/github'"> 
+            <i class="devicon-github-original" id="login-icon" ></i>
+            Login with GitHub</button>
+        </div>
+      </div>
       </form>
 
       <div class="container">
@@ -43,11 +55,11 @@
           <a> Forgot Password? </a>
         </div>
         <div class="row" id="row2">
-          <div class="col-sm-2" id="small-col">
+          <div class="col-sm-4" id="small-col">
             <a> New User?</a>
           </div>
 
-          <div class="col-sm-2" id="small-col">
+          <div class="col-sm-4" id="small-col">
             <a href="/signup"> Create Account</a>
           </div>
         </div>

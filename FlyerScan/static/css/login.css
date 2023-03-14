@@ -40,3 +40,20 @@
     text-align: center;
 
 }
+
+.row#login-with{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3%;
+    text-align: center;
+}
+
+i#login-icon{
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+button#external-login{
+    display: flex;
+}
