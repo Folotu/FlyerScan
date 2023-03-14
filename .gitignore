@@ -1,3 +1,4 @@
 venv/
 virtualenv
 venv
+node_modules
