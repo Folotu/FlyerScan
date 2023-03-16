@@ -5,7 +5,7 @@
 
 <div class="container" id="login">
   <div class="row">
-    <div class="col">
+    <div class="col-xl-12">
       <h2 id="logo"><a href="/login"> FlyerScan</a></h2>
 
       <form method="POST">
@@ -38,12 +38,12 @@
         </div>
         <div class="row" id="login-with"> 
         <div class="col-sm-4">
-          <button type="button" class="btn btn-secondary" id="external-login"> 
+          <button type="button" class="btn btn-secondary" id="external-login" onclick="location.href= '/login/google'"> 
             <i class="devicon-google-plain" id="login-icon"></i>
           Login with Google</button>
         </div>
         <div class="col-sm-4">
-          <button type="button" class="btn btn-secondary" id="external-login" onclick="location.href= '/github'"> 
+          <button type="button" class="btn btn-secondary" id="external-login" onclick="location.href= '/login/github'"> 
             <i class="devicon-github-original" id="login-icon" ></i>
             Login with GitHub</button>
         </div>
