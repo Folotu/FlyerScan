@@ -6,7 +6,6 @@ from flask_cors import CORS
 from flask_admin import Admin
 from dotenv import load_dotenv
 from flask_dance.contrib.github import make_github_blueprint
-from google_auth_oauthlib.flow import Flow
 from flask_dance.contrib.google import make_google_blueprint
 import os
 
@@ -28,15 +27,15 @@ def create_app():
     from .auth import auth
     github_blueprint = make_github_blueprint(client_id=os.getenv('CLIENT_ID'), client_secret=os.getenv('CLIENT_SECRET'))
     google_blueprint = make_google_blueprint(client_id=os.getenv('GOOGLE_CLIENT_ID'), client_secret=os.getenv('GOOGLE_CLIENT_SECRET'), 
-                                            redirect_to='auth.google_login',
-                                            login_url='/login/google',
+                                            redirect_url='/login/google',
                                             scope=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email",'openid'],
-                                            authorized_url = '/login/google')
+                                            authorized_url='/google/authorized'
+                                            )
                                                                  
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(github_blueprint, url_prefix='/github_login')
-    app.register_blueprint(google_blueprint, url_prefix='/')
+    app.register_blueprint(google_blueprint, url_prefix='')
 
     from .models import Users
 

@@ -38,40 +38,43 @@ def login():
 @auth.route('/login/google')
 def google_login():
     if not google.authorized:
-        return redirect(url_for('google.login'))
+        return redirect(url_for("google.login"))
     
-    account_info = google.get('/oauth2/v2/userinfo')
-    if account_info.ok:
-        account_info_json = account_info.json()
-        email = account_info_json['email']
-        username = account_info_json['given_name']
+    try:
+        account_info = google.get('/oauth2/v2/userinfo')
+        print(account_info)
+        assert account_info.ok, account_info.text
+        if account_info.ok:
+            account_info_json = account_info.json()
+            email = account_info_json['email']
+            username = account_info_json['given_name']
 
-        if email is not None and account_info_json['verified_email'] is True:
- 
-            user = Users.query.filter_by(email=email).first()
-            if user:
-                flash('Logged in successfully!', category='success')
-                login_user(user, remember=True)
-                if len(current_user.roles) == 2:
-                    return redirect(url_for('admin.index'))
+            if email is not None and account_info_json['verified_email'] is True:
+
+                user = Users.query.filter_by(email=email).first()
+                if user:
+                    flash('Logged in successfully!', category='success')
+                    login_user(user, remember=True)
+                    if len(current_user.roles) == 2:
+                        return redirect(url_for('admin.index'))
+                    else:
+                        return redirect(url_for('views.index'))
                 else:
+                    new_user = Users(email=email, username=username, roles = [Role.query.first()])
+                    db.session.add(new_user)
+
+                    db.session.commit()
+                    login_user(new_user, remember=True)
+                    flash('Account created!', category='success')
                     return redirect(url_for('views.index'))
-            else:
-                new_user = Users(email=email, username=username, roles = [Role.query.first()])
-                db.session.add(new_user)
+                
+    except:         # or maybe any OAuth2Error
+        return redirect(url_for("google.login"))
 
-                db.session.commit()
-                login_user(new_user, remember=True)
-                flash('Account created!', category='success')
-                return redirect(url_for('views.index'))
-
-        else:
-            return jsonify({'status': 'Something went wrong While trying to sign in with your google account.'})
-
-    return jsonify({'status': 'failed'})
+    return jsonify({'status': 'Something went wrong While trying to sign in with your google account.'})
     
-# @auth.route('/login/github')
-@auth.route('github')
+    
+@auth.route('/login/github')
 def github_login():
     if not github.authorized:
         return redirect(url_for('github.login'))
