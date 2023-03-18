@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 import requests
 import json
 import os
+import shutil
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -61,24 +62,50 @@ def createOverlay(image_file_name, json_file_data):
     img.save(output_file_name)
     img.show()
 
+def imageResize(filepath):
+
+    # basewidth = 1000
+    img = Image.open(filepath)
+    # wpercent = (basewidth/float(img.size[0]))
+    # hsize = int((float(img.size[1])*float(wpercent)))
+    # print(hsize)
+    # hsize = 1000
+    img = img.resize((1000,1000), Image.Resampling.LANCZOS)
+    image_file_name_without_extension = os.path.splitext(filepath)[0]
+    output_file_name = image_file_name_without_extension + "_Resized.png"
+
+    print('resized')
+    img.save(output_file_name)
+    return output_file_name
+
+    # url = f'https://resize.sardo.work/?imageUrl={image_url}&width={1000}&height={1000}'
+    # response = requests.get(url, stream=True)
+    # print(response.raw)
+
+    # with open('sample.png', 'wb') as out_file:
+    # shutil.copyfileobj(response.raw, out_file)
+
+    # print('The file was saved successfully')
+
+def sizeIsOK(filepath):
+    img = Image.open(filepath)
+    
+    # get width and height
+    width = img.width
+    height = img.height
+
+    if (width > 1000 or height > 1000):
+        return False
+    else:
+        return True
 
 def ocr_space_file(filename, overlay=False, language='eng'):
-    """ OCR.space API request with local file.
-        Python3.5 - not tested on 2.7
-    :param filename: Your file path & name.
-    :param overlay: Is OCR.space overlay required in your response.
-                    Defaults to False.
-    :param api_key: OCR.space API key.
-                    Defaults to 'helloworld'.
-    :param language: Language code to be used in OCR.
-                    List of available language codes can be found on https://ocr.space/OCRAPI
-                    Defaults to 'en'.
-    :return: Result in JSON format.
-    """
-    overlay = True
+
+    #overlay = True
     payload = {'isOverlayRequired': overlay,
                'apikey': os.getenv('OCR_API_KEY'),
                'language': language,
+               'OCREngine': 5
                }
     with open(filename, 'rb') as f:
         r = requests.post('https://api.ocr.space/parse/image',
@@ -98,7 +125,6 @@ def ocr_space_file(filename, overlay=False, language='eng'):
     return prsdText
 
 
-
 def extract_text(image_path):
     # Perform OCR using Tesseract
     with Image.open(image_path) as img:
@@ -106,10 +132,15 @@ def extract_text(image_path):
         with open('output.txt', 'w') as f:
             f.write(text)
 
+    # check image dimensions
+    if not sizeIsOK(image_path):
+        image_path = imageResize(image_path)
+        
     # Perform OCR using API
     text = ocr_space_file(filename=image_path)
     with open('outputWithAPI.txt', 'w') as f:
             f.write(text)
+
     
     return text
 
@@ -175,7 +206,7 @@ def find_fields(text):
 
 
 try:
-    fields = find_fields(extract_text("SampleFlyers/6.png")) 
+    fields = find_fields(extract_text("SampleFlyers/2.png")) 
     title = fields['title']
     date = fields['date']
     if fields['start_time'] or fields['end_time']:

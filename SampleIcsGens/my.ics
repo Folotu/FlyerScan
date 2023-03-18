@@ -2,11 +2,11 @@ BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:ics.py - http://git.io/lLljaA
 BEGIN:VEVENT
-DESCRIPTION:The event takes place on 2023-02-24 from 2:00 PM to 3:30 PM. The event location is California\, SCHOOL\r. The event is organized by PM\, SCHOOL OF\, IJCMERCED\, UNIVERSITY OF CALIFORNIA\, MERCED Vanguard.
-LOCATION:['California'\, 'SCHOOL\\r']
-ORGANIZER;CN=PM SCHOOL OF IJCMERCED UNIVERSITY OF CALIFORNIA MERCED Vanguard:mailto:PM SCHOOL OF IJCMERCED UNIVERSITY OF CALIFORNIA MERCED Vanguard
-DTSTART:20230224T000000Z
-SUMMARY:Conference Center Room
-UID:994f7399-6cfd-493d-8ecf-c92de01fcc9a@994f.org
+DESCRIPTION:The event takes place on 2023-02-22 at 9:00pm. The event location is Us. The event is organized by Future\, Vision Board.
+LOCATION:['Us']
+ORGANIZER;CN=Future Vision Board:mailto:Future Vision Board
+DTSTART:20230222T000000Z
+SUMMARY:Manifest Your Future
+UID:120fa689-612c-4007-98a1-d1159a01a01f@120f.org
 END:VEVENT
 END:VCALENDAR
