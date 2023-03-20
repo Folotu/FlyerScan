@@ -21,7 +21,7 @@ Flask-SQLAlchemy==3.0.3
 Flask-Uploads==0.2.1
 Flask-WTF==1.1.1
 greenlet==2.0.2
-ics==0.7.2
+icalendar==5.0.4
 idna==3.4
 importlib-metadata==6.0.0
 itsdangerous==2.1.2

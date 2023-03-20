@@ -1,12 +1,16 @@
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:ics.py - http://git.io/lLljaA
-BEGIN:VEVENT
-DESCRIPTION:The event takes place on 2023-02-22 at 9:00pm. The event location is Us. The event is organized by Future\, Vision Board.
-LOCATION:['Us']
-ORGANIZER;CN=Future Vision Board:mailto:Future Vision Board
-DTSTART:20230222T000000Z
-SUMMARY:Manifest Your Future
-UID:120fa689-612c-4007-98a1-d1159a01a01f@120f.org
-END:VEVENT
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//FlyerScan Calendar//mxm.dk//
+BEGIN:VEVENT
+SUMMARY:Big Picture Advice
+DTSTART:20230224T160000
+DTEND:20230224T173000
+DTSTAMP:20230320T090750Z
+DESCRIPTION:The event takes place on 2023-02-24 from 4:00 PM to 5:30 PM. T
+ he event location is California. The event is organized by Upperclass\, Pa
+ nel\, PM\, ENGINEERING.
+LOCATION:['California']
+ORGANIZER:Upperclass Panel PM ENGINEERING
+PRIORITY:5
+END:VEVENT
 END:VCALENDAR

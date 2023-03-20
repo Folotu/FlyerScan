@@ -6,12 +6,13 @@ from nltk import ne_chunk, pos_tag, word_tokenize
 from nltk.tree import Tree
 import re
 from dateutil.parser import parse
-from ics import Calendar, Event
+from icalendar import Calendar, Event
 from PIL import Image, ImageDraw, ImageFont
 import requests
 import json
 import os
 import shutil
+import arrow
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -70,12 +71,12 @@ def imageResize(filepath):
     # hsize = int((float(img.size[1])*float(wpercent)))
     # print(hsize)
     # hsize = 1000
-    img = img.resize((1000,1000), Image.Resampling.LANCZOS)
+    img = img.resize((434,600), Image.Resampling.LANCZOS)
     image_file_name_without_extension = os.path.splitext(filepath)[0]
     output_file_name = image_file_name_without_extension + "_Resized.png"
 
     print('resized')
-    img.save(output_file_name)
+    img.save(output_file_name, optimize=True, quality=85)
     return output_file_name
 
     # url = f'https://resize.sardo.work/?imageUrl={image_url}&width={1000}&height={1000}'
@@ -96,6 +97,8 @@ def sizeIsOK(filepath):
 
     if (width > 1000 or height > 1000):
         return False
+    elif (os.stat(filepath)).st_size >= 1000000:
+        return False
     else:
         return True
 
@@ -112,6 +115,8 @@ def ocr_space_file(filename, overlay=False, language='eng'):
                           files={filename: f},
                           data=payload,
                           )
+    print(r.status_code)
+    print(r.reason)
     rDict = json.loads(r.content.decode())
 
     if overlay:
@@ -138,7 +143,7 @@ def extract_text(image_path):
         
     # Perform OCR using API
     text = ocr_space_file(filename=image_path)
-    with open('outputWithAPI.txt', 'w') as f:
+    with open('outputWithAPI.txt', 'w', encoding="utf-8") as f:
             f.write(text)
 
     
@@ -148,8 +153,8 @@ def find_fields(text):
     # Define patterns for extracting information
     title_pattern = r"\b(?:[A-Z][a-z]*\s){1,4}(?:[A-Z][a-z]*)\b"
     date_pattern = r"(?i)(?:(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:\s+\d{4})?"
-    time_pattern = r"\d{1,2}:\d{2}\s*(?:am|pm|AM|PM)"
-    time_range_pattern = r"\b(\d{1,2}:\d{2}\s*(?:am|pm|AM|PM))\s*-\s*(\d{1,2}:\d{2}\s*(?:am|pm|AM|PM))\b"
+    time_pattern = r"\d{1,2}(?::\d{2})?\s*(?:am|pm|AM|PM)"
+    time_range_pattern = r"\b(\d{1,2}(?::\d{2})?\s*(?:am|pm|AM|PM))\s*-\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm|AM|PM))\b"
     location_pattern = r"(?i)\b(?:at|in)\b\s+(?:the\s+)?(.+)"
 
     # Extract information from the text using regex
@@ -204,13 +209,28 @@ def find_fields(text):
     }
     return fields
 
+def convert_time_to_24h(time_str):
+    time_str = time_str.lower()
+    match = re.match(r"(\d?\d)[:\s]?(\d\d)?\s*([ap]m?)", time_str)
+    if not match:
+        raise ValueError("Invalid time format")
 
-try:
-    fields = find_fields(extract_text("SampleFlyers/2.png")) 
+    hours = int(match.group(1))
+    minutes = int(match.group(2)) if match.group(2) else 0
+    am_pm = match.group(3)
+    if "p" in am_pm and hours != 12:
+        hours += 12
+    elif "a" in am_pm and hours == 12:
+        hours = 0
+
+    return hours, minutes
+
+def calendarGen(fields):
     title = fields['title']
     date = fields['date']
     if fields['start_time'] or fields['end_time']:
-        time = str(fields['start_time']) + str(fields['end_time'])
+        startTimeHrs, startTimeMins = convert_time_to_24h(fields['start_time'])
+        endTimeHrs, endTimeMins = convert_time_to_24h(fields['end_time'])
     else: 
         time = fields['time']
     # start_time = fields['start_time']
@@ -219,19 +239,36 @@ try:
     desc= fields['desc']
 
     c = Calendar()
-    e = Event()
-    e.name = str(title)
-    e.begin = date
-    # e.end: ArrowLike = None,
-    # e.duration: timedelta = None,
-    e.location = str(location)
-    e.description = str(desc)
-    e.organizer = ' '.join(fields['org'])
-    c.events.add(e)
-    print(c.events)
 
-    with open('SampleIcsGens/my.ics', 'w') as my_file:
-        my_file.writelines(c.serialize_iter())
+    c.add('prodid', '-//FlyerScan Calendar//mxm.dk//')
+    c.add('version', '2.0')
+    e = Event()
+    e.add('summary', str(title))
+
+    dt = datetime.strptime(date, '%Y-%m-%d')
+
+    e.add('dtstart', datetime(dt.year, dt.month, dt.day, startTimeHrs, startTimeMins, 0, tzinfo=None))
+    e.add('dtend', datetime(dt.year, dt.month, dt.day, endTimeHrs, endTimeMins, 0, tzinfo=None))
+
+    e.add('dtstamp', arrow.get().datetime)
+    e.add('priority', 5)
+
+    e['organizer'] = ' '.join(fields['org'])
+    e['location'] = str(location)
+    e['description'] = str(desc)
+    c.add_component(e)
+
+
+    with open('SampleIcsGens/my.ics', 'wb') as my_file:
+        my_file.write(c.to_ical())
+    
+    return str(title), date, fields['time'],fields['start_time'], fields['end_time'], desc, location
+
+
+try:
+    fields = find_fields(extract_text("SampleFlyers/5.png")) 
+    title, date, time, startime, endtime, desc, location = calendarGen(fields=fields)
+
 
 except AttributeError as e:
     print("Error:", e)
@@ -241,6 +278,8 @@ except AttributeError as e:
 print("Title:", title)
 print("Date:", date)
 print("Time:", time)
+print("start time:", startime)
+print("end time:", endtime)
 print("Location:", location)
 print("Description:", desc)
 
