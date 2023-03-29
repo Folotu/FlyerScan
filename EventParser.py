@@ -155,7 +155,8 @@ def find_fields(text):
     date_pattern = r"(?i)(?:(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),?\s+)?(?:January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}(?:st|nd|rd|th)?(?:\s+\d{4})?"
     time_pattern = r"\d{1,2}(?::\d{2})?\s*(?:am|pm|AM|PM)"
     time_range_pattern = r"\b(\d{1,2}(?::\d{2})?\s*(?:am|pm|AM|PM))\s*-\s*(\d{1,2}(?::\d{2})?\s*(?:am|pm|AM|PM))\b"
-    location_pattern = r"(?i)\b(?:at|in)\b\s+(?:the\s+)?(.+)"
+    # location_pattern = r"(?i)\b(?:at|in)\b\s+(?:the\s+)?(.+)"
+    location_pattern = r"(?i)(?:in\s+|at\s+|on\s+)?(?:the\s+)?(?:[A-Z][a-z]+\s+)*?(?:Building|Hall|Center|Campus|Office|Room|Suite|Theater)(?:\s+[A-Z][a-z]+)*(?:\s*,\s*|\s+in\s+|\s+at\s+|\s+on\s+)?(?:[A-Za-z]+\s+)*?\d+(?:-\d+)?(?:\s+[A-Za-z]+\b(?:\s+[A-Za-z]+)*)?"
 
     # Extract information from the text using regex
     title_match = re.search(title_pattern, text)
@@ -176,14 +177,14 @@ def find_fields(text):
     for sent in nltk.sent_tokenize(text):
         for chunk in nltk.ne_chunk(nltk.pos_tag(nltk.word_tokenize(sent))):
             if isinstance(chunk, Tree):
-                if chunk.label() == 'GPE':
+                if chunk.label() == 'LOC':
                     loc.append(' '.join([c[0] for c in chunk]))
                 elif chunk.label() == 'ORGANIZATION':
                     org.append(' '.join([c[0] for c in chunk]))
     
     # Extract location from the text
     if location_match:
-        loc.append(location_match.group(1))
+        loc.append(' '.join(location_match.group().splitlines()))
     
     # Build the description based on the extracted information
     if date:
@@ -233,8 +234,11 @@ def calendarGen(fields):
         endTimeHrs, endTimeMins = convert_time_to_24h(fields['end_time'])
     else: 
         time = fields['time']
-    # start_time = fields['start_time']
-    # end_time = fields['end_time']
+        if time is not None:
+            startTimeHrs, startTimeMins = convert_time_to_24h(time)
+            endTimeHrs, endTimeMins = 0, 0
+        else: 
+            startTimeHrs, startTimeMins, endTimeHrs, endTimeMins = 0, 0, 0, 0
     location = fields['location']
     desc= fields['desc']
 
@@ -245,10 +249,14 @@ def calendarGen(fields):
     e = Event()
     e.add('summary', str(title))
 
+    if date is None: 
+        date = '1999-09-09'
+
     dt = datetime.strptime(date, '%Y-%m-%d')
 
     e.add('dtstart', datetime(dt.year, dt.month, dt.day, startTimeHrs, startTimeMins, 0, tzinfo=None))
     e.add('dtend', datetime(dt.year, dt.month, dt.day, endTimeHrs, endTimeMins, 0, tzinfo=None))
+
 
     e.add('dtstamp', arrow.get().datetime)
     e.add('priority', 5)
@@ -266,7 +274,7 @@ def calendarGen(fields):
 
 
 try:
-    fields = find_fields(extract_text("SampleFlyers/5.png")) 
+    fields = find_fields(extract_text("SampleFlyers/12.png")) 
     title, date, time, startime, endtime, desc, location = calendarGen(fields=fields)
 
 
