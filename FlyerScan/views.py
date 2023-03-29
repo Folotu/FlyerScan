@@ -14,6 +14,8 @@ def index():
 
         if (current_user.is_anonymous):
             person = "Guest"
+            return render_template('landing.html', person=person,)    
+        
         else:
             person = current_user.username
         return render_template('index.html', person=person)

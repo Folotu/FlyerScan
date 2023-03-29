@@ -1,0 +1,57 @@
+body#landing {
+    background-color: #404CCF;
+    margin-top: 15vh;
+
+}
+
+#landing-description {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 2em;
+    margin-bottom: 2em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    color: white;
+    user-select: none;
+}
+
+#logo-landing {
+    font-size: 4rem;
+    text-align: center;
+    color: white;
+    user-select: none;
+}
+
+p#landing-description {
+    text-align: center;
+    color: white;
+    font-size: 0.75rem;
+    margin-bottom: 25%;
+}
+
+button.btn.btn-outline-light {
+    padding: 15px;
+    margin-top: 1em;
+    font-size: 1rem;
+}
+
+button.btn.btn-light {
+    padding: 15px;
+    font-size: 1rem;
+}
+
+a#landing-login {
+    text-decoration: none;
+    color: inherit;
+}
+
+img#landing-icons {
+    max-width: 200px !important;
+    min-height: 200px !important;
+    object-fit: cover;
+    object-position: bottom;
+
+    margin: auto;
+    pointer-events: none;
+
+}
