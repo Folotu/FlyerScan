@@ -49,7 +49,7 @@ def process_image():
     # Decode the base64-encoded image data
     decoded_image = base64.b64decode(image_data.split(',')[1])
     # Save the image to a file or database
-    with open('CapturedImages/capturedImage.png', 'wb') as f:
+    with open('FlyerScan/static/CapturedImages/capturedImage.png', 'wb') as f:
         f.write(decoded_image)
     # for now returns Image capture TODO: will link this with overlayed image    
     return 'Image captured'
@@ -58,7 +58,7 @@ def process_image():
 def upload_file():
     file = request.files['file']
     # Save the file to a directory or database
-    file.save('UploadedImages/uploadedImage.png')
+    file.save('FlyerScan/static/UploadedImages/uploadedImage.png')
     # Redirect the user to a page to display the uploaded file
     return redirect(url_for('views.display_file'))
 
