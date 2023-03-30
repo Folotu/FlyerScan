@@ -1,0 +1,20 @@
+<style>
+    #camera-stream {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+<!--<img id="camera-stream" src="{{ url_for('views.video_viewer') }}"> -->
+
+<video id="camera-stream" width="" height=""></video>
+<button id="start-stream-btn">Open Camera</button>
+<button id="capture-image-btn" style="display: none;">Capture Image</button>
+<form method="POST" action="{{ url_for('views.process_image') }}">
+        <input type="hidden" name="image_data" id="image-data">
+        <button type="submit" style="display: none;">Submit</button>
+</form>
+
+
+<script type="text/javascript"
+src="{{ url_for('static', filename='/js/camera.js') }}">
+</script> 
