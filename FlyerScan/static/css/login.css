@@ -12,6 +12,7 @@
 
 }
 
+
 #logo {
     font-size: 4rem;
     text-align: center;
@@ -58,4 +59,34 @@ i#login-icon {
 
 button.btn.btn-secondary.login {
     margin: 5px;
+}
+
+button.btn.btn-primary {
+    background-color: #404CCF;
+    padding: 15px;
+    margin-top: 1em;
+}
+
+button.btn.btn-secondary.google {
+    margin-top: 1em;
+    background-color: white;
+    color: inherit;
+    max-width: 65%;
+
+}
+
+button.btn.btn-secondary.github {
+    margin-top: 1em;
+    background-color: black;
+    max-width: 65%;
+
+}
+
+img#login-icon {
+    vertical-align: middle;
+}
+
+i#login-icon {
+    vertical-align: middle;
+
 }

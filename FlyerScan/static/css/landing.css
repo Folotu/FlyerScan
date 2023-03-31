@@ -1,7 +1,8 @@
 body#landing {
     background-color: #404CCF;
-    margin-top: 15vh;
-
+    padding: 12px;
+    margin-top: 10vh;
+    margin-bottom: 10vh;
 }
 
 #landing-description {
@@ -9,11 +10,12 @@ body#landing {
     text-align: center;
     margin-top: 2em;
     margin-bottom: 2em;
-    padding-top: 0.25em;
-    padding-bottom: 0.25em;
+    padding-top: 1em;
+    padding-bottom: 1em;
     color: white;
     user-select: none;
 }
+
 
 #logo-landing {
     font-size: 4rem;
@@ -33,11 +35,13 @@ button.btn.btn-outline-light {
     padding: 15px;
     margin-top: 1em;
     font-size: 1rem;
+
 }
 
 button.btn.btn-light {
     padding: 15px;
     font-size: 1rem;
+
 }
 
 a#landing-login {
@@ -47,11 +51,34 @@ a#landing-login {
 
 img#landing-icons {
     max-width: 200px !important;
-    min-height: 200px !important;
-    object-fit: cover;
-    object-position: bottom;
-
+    max-height: 200px !important;
+    width: auto;
+    height: auto;
     margin: auto;
     pointer-events: none;
+}
 
+img#flyer-icon {
+    max-width: 225px !important;
+    max-height: 225px !important;
+    width: auto;
+    height: auto;
+    margin: auto;
+    pointer-events: none;
+}
+
+
+.row.mt-3 {
+    justify-content: center;
+    align-items: center;
+
+}
+
+.carousel-indicators {
+    margin-bottom: 0;
+    margin-top: 10em;
+}
+
+.carousel-inner {
+    height: 60vh;
 }
