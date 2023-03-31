@@ -1,40 +1,70 @@
-{% extends 'base.html' %} 
-{% block title %}{% endblock %}
+{% extends 'base.html' %} {% block title %}{% endblock %} {% block header %}{%
+endblock %} {% block body %}
 
-{% block header %}{% endblock %}
-{% block body %}
-
-
-Welcome {{ person }}
-    
 <html>
   <head>
-    <link rel="stylesheet" href="../static/css/login.css" />
+    <link rel="stylesheet" href="../static/css/index.css" />
   </head>
-  <body> 
-    
-<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <a class="navbar-brand" href="#">FlyerScan</a>
-  
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
-      </ul>
+  <body>
+    <div id="welcome-container">
+      <h1 id="welcome-user">
+        Welcome back, <br />
+        {{ person }}!
+      </h1>
     </div>
-  </nav> -->
 
-</body>
+    <div id="upload-container">
+      <div class="image-upload">
+        <label for="file-input">
+          <img
+            src="{{url_for('static', filename='images/Upload.png')}}"
+            width="85"
+            style="pointer-events: none"
+          />
+        </label>
+        <p id="upload-button-label">Upload Flyer</p>
+
+        <input id="file-input" type="file" />
+      </div>
+      <!-- <input id="upload-button" type="file"  accept="image/*;capture=camera" > </a> -->
+    </div>
+
+
+    <!----------------------------------------------------------------------- Still working on navbar ------------------------------------------------------------------------------------------------------------------------------------------ -->
+   
+   
+   
+    <!-- <nav class="navbar fixed-bottom navbar-expand-lg navbar-light bg-light">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarTogglerDemo03"
+        aria-controls="navbarTogglerDemo03"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="#">FlyerScan</a>
+
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="#"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+        </ul>
+      </div>
+    </nav> -->
+  </body>
 </html>
 
 {% endblock %}
