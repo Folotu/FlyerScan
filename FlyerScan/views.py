@@ -30,6 +30,8 @@ def index():
         
         if (current_user.is_anonymous):
             toSend['person'] = "Guest"
+            return render_template('landing.html', toSend=toSend,)    
+        
         else:
             toSend['person'] = current_user.username
             toSend['posterToScan'] = FileField('Flyer')
