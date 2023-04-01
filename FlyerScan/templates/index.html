@@ -1,5 +1,9 @@
-{% extends 'base.html' %} {% block title %}{% endblock %} {% block header %}{%
-endblock %} {% block body %}
+{% extends 'base.html' %} 
+{% block title %}{% endblock %} 
+
+{% block header %}{%endblock %} 
+
+{% block body %}
 
 <html>
   <head>
@@ -14,10 +18,9 @@ endblock %} {% block body %}
         {{ toSend['person'] }}!
       </h1>
     </div>
-
     <div id="upload-container">
       <div class="image-upload">
-        <label for="file-input">
+        <label for="file-upload">
           <img
             src="{{url_for('static', filename='images/Upload.png')}}"
             width="85"
@@ -25,37 +28,12 @@ endblock %} {% block body %}
           />
         </label>
         <p id="upload-button-label">Upload Flyer</p>
-<form method="POST" enctype="multipart/form-data" action="{{ url_for('views.upload_file') }}">
-        <input id="file-upload" type="file" name="file" />
-        
-    <label for="file-upload">Upload a file:</label>
-    <input type="file" name="file" id="file-upload"><br>
-    <button type="submit">Upload</button>
-</form>
-        <button onclick="location.href='/camera'">Take a picture</button>
+        <form id="file-upload-form" method="POST" enctype="multipart/form-data" action="{{ url_for('views.upload_file') }}" style="display:none;">
+          <input id="file-upload" type="file" name="file" onchange="document.getElementById('file-upload-form').submit();" />
+        </form>
       </div>
-      <!-- <input id="upload-button" type="file"  accept="image/*;capture=camera" > </a> -->
     </div>
 
-    <!----------------------------------------------------------------------- Still working on navbar ------------------------------------------------------------------------------------------------------------------------------------------ -->
-
-    <nav class="nav">
-      <a href="#" class="nav__link nav__link--active">
-        <i class="material-icons nav__icon">home</i>
-        <span class="nav__text">Home</span>
-      </a>
-      <a href="#" class="nav__link">
-        <i class="material-icons nav__icon">photo_camera</i>
-        <span class="nav__text">Scan</span>
-      </a>
-      <a href="#" class="nav__link">
-        <i class="material-icons nav__icon">history</i>
-        <span class="nav__text">History</span>
-      </a>
-      <a href="#" class="nav__link">
-        <i class="material-icons nav__icon">person</i>
-        <span class="nav__text">Account</span>
-      </a>
-    </nav>
   </body>
 </html>
+{%endblock %} 

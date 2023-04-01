@@ -84,6 +84,32 @@
 
 <body>{% block body %}{% endblock %}</body>
 
+
+<!----------------------------------------------------------------------- Still working on navbar ------------------------------------------------------------------------------------------------------------------------------------------ -->
+<nav class="nav">
+  {% block nav%} 
+
+    <a href="#" class="nav__link nav__link--active">
+      <i class="material-icons nav__icon">home</i>
+      <span class="nav__text">Home</span>
+    </a>
+    <a href="/camera" class="nav__link">
+      <i class="material-icons nav__icon">photo_camera</i>
+      <span class="nav__text">Scan</span>
+
+    </a>
+    <a href="#" class="nav__link">
+      <i class="material-icons nav__icon">history</i>
+      <span class="nav__text">History</span>
+    </a>
+    <a href="#" class="nav__link">
+      <i class="material-icons nav__icon">person</i>
+      <span class="nav__text">Account</span>
+    </a>
+  
+  {% endblock %}
+</nav>
+
 <script type="text/javascript"
 src="{{ url_for('static', filename='/js/index.js') }}">
 </script> 

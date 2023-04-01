@@ -14,21 +14,25 @@ async function registerServiceWorker() {
     }
   }
 
-
-  // Function to highlight current tab on navbar
-  const links = document.querySelectorAll('.nav__link');
+// Function to highlight current tab on navbar
+const links = document.querySelectorAll('.nav__link');
     
-  if (links.length) {
-    links.forEach((link) => {
-      link.addEventListener('click', (e) => {
-        links.forEach((link) => {
-            link.classList.remove('nav__link--active');
-        });
-        e.preventDefault();
-        link.classList.add('nav__link--active');
+if (links.length) {
+  links.forEach((link) => {
+    link.addEventListener('click', (e) => {
+      links.forEach((link) => {
+        link.classList.remove('nav__link--active');
       });
+      e.preventDefault();
+      link.classList.add('nav__link--active');
+
+      // Redirect to the "/camera" URL if the link is the "Scan" link
+      if (link.href.includes('/camera')) {
+        window.location.href = '/camera';
+      }
     });
-  }
+  });
+}
 
 
 // Register Service Worker

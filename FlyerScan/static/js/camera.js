@@ -5,7 +5,7 @@ const imageDataInput = document.querySelector('#image-data');
 
 let stream;
 
-startStreamBtn.addEventListener('click', () => {
+// startStreamBtn.addEventListener('click', () => {
     // Get access to the camera hardware
     navigator.mediaDevices.getUserMedia({ video: true })
         .then(newStream => {
@@ -20,7 +20,7 @@ startStreamBtn.addEventListener('click', () => {
         .catch(error => {
             console.error('Error accessing camera:', error);
         });
-});
+// });
 
 captureImageBtn.addEventListener('click', () => {
     // Create a canvas element to capture the image
