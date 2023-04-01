@@ -11,7 +11,7 @@ endblock %} {% block body %}
     <div id="welcome-container">
       <h1 id="welcome-user">
         Welcome back, <br />
-        {{ person }}!
+        {{ toSend['person'] }}!
       </h1>
     </div>
 
@@ -25,8 +25,14 @@ endblock %} {% block body %}
           />
         </label>
         <p id="upload-button-label">Upload Flyer</p>
-
-        <input id="file-input" type="file" />
+<form method="POST" enctype="multipart/form-data" action="{{ url_for('views.upload_file') }}">
+        <input id="file-upload" type="file" name="file" />
+        
+    <label for="file-upload">Upload a file:</label>
+    <input type="file" name="file" id="file-upload"><br>
+    <button type="submit">Upload</button>
+</form>
+        <button onclick="location.href='/camera'">Take a picture</button>
       </div>
       <!-- <input id="upload-button" type="file"  accept="image/*;capture=camera" > </a> -->
     </div>
@@ -53,5 +59,3 @@ endblock %} {% block body %}
     </nav>
   </body>
 </html>
-
-{% endblock %}

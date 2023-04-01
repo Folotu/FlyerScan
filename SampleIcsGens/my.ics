@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//FlyerScan Calendar//mxm.dk//
+BEGIN:VEVENT
+SUMMARY:Computer Science
+DTSTART:20230415T090000
+DTEND:20230415T170000
+DTSTAMP:20230329T104507Z
+DESCRIPTION:The event takes place on 2023-04-15 from 9:00AM to 5:00 PM. Th
+ e event is organized by CSUME\, Computer Science\, Computer\, Student Serv
+ ice\, CompLine Alliarze.
+LOCATION:[]
+ORGANIZER:CSUME Computer Science Computer Student Service CompLine Alliarz
+ e
+PRIORITY:5
+END:VEVENT
+END:VCALENDAR
