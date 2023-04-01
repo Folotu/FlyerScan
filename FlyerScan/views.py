@@ -9,6 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, url_for
 from flask_wtf.file import FileField
 import cv2
+import os
 
 views = Blueprint('views', __name__)
 
@@ -46,23 +47,77 @@ def video_viewer():
 @views.route('/process_image', methods=['POST'])
 def process_image():
     image_data = request.form['image_data']
+    user = current_user.username
+
+    directory = f'FlyerScan/static/UserStatic/{user}/UploadedFlyers'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    num_files = ScanHistory.query.filter_by(author=current_user).count()
+
+    # Set the filename based on the number of uploaded files
+    filename = f"{num_files + 1}.png"
+
     # Decode the base64-encoded image data
     decoded_image = base64.b64decode(image_data.split(',')[1])
     # Save the image to a file or database
-    with open('FlyerScan/static/CapturedImages/capturedImage.png', 'wb') as f:
+    with open(os.path.join(directory, filename), 'wb') as f:
         f.write(decoded_image)
-    # for now returns Image capture TODO: will link this with overlayed image    
-    return 'Image captured'
+
+    # Create a new ScanHistory object for this upload
+    scan_history = ScanHistory(
+        author=current_user,
+        flyer_name=filename,
+        flyer_url=os.path.join(directory, filename)
+    )
+    db.session.add(scan_history)
+    db.session.commit()
+
+    relative_path = os.path.join(directory, filename).split("FlyerScan", 1)[1]
+
+    # Redirect the user to a page to display the overlayed uploaded file
+    return 'Image captured' and display_file(relative_path)   
+
+    # # for now returns Image capture TODO: will link this with overlayed image    
+    # return 'Image captured'
+
+
 
 @views.route('/upload_file', methods=['POST'])
 def upload_file():
     file = request.files['file']
     # Save the file to a directory or database
-    file.save('FlyerScan/static/UploadedImages/uploadedImage.png')
-    # Redirect the user to a page to display the uploaded file
-    return redirect(url_for('views.display_file'))
+    # file.save('FlyerScan/static/UploadedImages/uploadedImage.png')
+    user = current_user.username
+    directory = f'FlyerScan/static/UserStatic/{user}/UploadedFlyers'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    num_files = ScanHistory.query.filter_by(author=current_user).count()
+
+    # Set the filename based on the number of uploaded files
+    filename = f"{num_files + 1}.png"
+
+    # Save the file with the new filename
+    file.save(os.path.join(directory, filename))
+
+    # Create a new ScanHistory object for this upload
+    scan_history = ScanHistory(
+        author=current_user,
+        flyer_name=filename,
+        flyer_url=os.path.join(directory, filename)
+    )
+    db.session.add(scan_history)
+    db.session.commit()
+
+    relative_path = os.path.join(directory, filename).split("FlyerScan", 1)[1]
+    print(relative_path)
+
+    # Redirect the user to a page to display the overlayed uploaded file
+    return display_file(relative_path)
+
 
 @views.route('/display_file')
-def display_file():
+def display_file(flyerPath):
     # Render a template to display the uploaded file
-    return render_template('display_file.html')
+    return render_template('display_file.html', flyerPath=flyerPath)
