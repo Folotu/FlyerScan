@@ -8,7 +8,7 @@
 
 <video id="camera-stream" width="" height=""></video>
 <!--<button id="start-stream-btn">Open Camera</button> -->
-<button id="capture-image-btn" style="">Capture Image</button>
+<button id="capture-image-btn" style="display: none;">Capture Image</button>
 <form method="POST" action="{{ url_for('views.process_image') }}">
         <input type="hidden" name="image_data" id="image-data">
         <button type="submit" style="display: none;">Submit</button>

@@ -1,26 +1,30 @@
-const startStreamBtn = document.querySelector('#start-stream-btn');
 const captureImageBtn = document.querySelector('#capture-image-btn');
 const cameraStream = document.querySelector('#camera-stream');
 const imageDataInput = document.querySelector('#image-data');
 
 let stream;
 
-// startStreamBtn.addEventListener('click', () => {
+document.addEventListener('DOMContentLoaded', () => {
+    requestCameraPermissions();
+  });
+
+function requestCameraPermissions() {
     // Get access to the camera hardware
     navigator.mediaDevices.getUserMedia({ video: true })
-        .then(newStream => {
-            // Save the stream to a variable
-            stream = newStream;
-            // Display the stream on the video element
-            cameraStream.srcObject = stream;
-            cameraStream.play();
-            // Show the capture image button
-            captureImageBtn.style.display = 'inline-block';
-        })
-        .catch(error => {
-            console.error('Error accessing camera:', error);
-        });
-// });
+      .then(newStream => {
+        // Save the stream to a variable
+        stream = newStream;
+        // Display the stream on the video element
+        cameraStream.srcObject = stream;
+        cameraStream.play();
+        // Show the capture image button
+        captureImageBtn.style.display = 'inline-block';
+      })
+      .catch(error => {
+        console.error('Error accessing camera:', error);
+      });
+  }
+
 
 captureImageBtn.addEventListener('click', () => {
     // Create a canvas element to capture the image
