@@ -16,21 +16,44 @@ async function registerServiceWorker() {
 
 // Function to highlight current tab on navbar
 const links = document.querySelectorAll('.nav__link');
-    
+let lastActiveLink = null;
+
 if (links.length) {
   links.forEach((link) => {
     link.addEventListener('click', (e) => {
+      e.preventDefault();
       links.forEach((link) => {
         link.classList.remove('nav__link--active');
       });
-      e.preventDefault();
       link.classList.add('nav__link--active');
+
+      // Remove active class from last active link
+      if (lastActiveLink) {
+        lastActiveLink.classList.remove('nav__link--active');
+      }
+      lastActiveLink = link;
 
       // Redirect to the "/camera" URL if the link is the "Scan" link
       if (link.href.includes('/camera')) {
         window.location.href = '/camera';
       }
+      else if (link.href.includes('/history')) {
+        window.location.href = '/history';
+      }
+      else if (link.href.includes('/account')) {
+        window.location.href = '/account';
+      }
+      else if (link.href.includes('/home')) {
+        window.location.href = '/';
+      }
     });
+    // Set active class for current page
+    const path = window.location.pathname;
+    const linkPath = link.pathname;
+    if (path.startsWith(linkPath) || (path == '/' && linkPath == '/home')) {
+      link.classList.add('nav__link--active');
+      lastActiveLink = link;
+    }
   });
 }
 

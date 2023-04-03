@@ -23,6 +23,8 @@
   />
   <link rel="manifest" href="../static/manifest.json" />
 
+  <link rel="stylesheet" href="../static/css/index.css" />
+
   <!-- Icons -->
 
   <link
@@ -89,7 +91,7 @@
 <nav class="nav">
   {% block nav%} 
 
-    <a href="#" class="nav__link nav__link--active">
+    <a href="/home" class="nav__link">
       <i class="material-icons nav__icon">home</i>
       <span class="nav__text">Home</span>
     </a>
@@ -98,11 +100,11 @@
       <span class="nav__text">Scan</span>
 
     </a>
-    <a href="#" class="nav__link">
+    <a href="/history" class="nav__link">
       <i class="material-icons nav__icon">history</i>
       <span class="nav__text">History</span>
     </a>
-    <a href="#" class="nav__link">
+    <a href="/account" class="nav__link">
       <i class="material-icons nav__icon">person</i>
       <span class="nav__text">Account</span>
     </a>

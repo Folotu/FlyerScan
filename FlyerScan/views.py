@@ -65,24 +65,22 @@ def process_image():
     # Save the image to a file or database
     with open(os.path.join(directory, filename), 'wb') as f:
         f.write(decoded_image)
+    relative_path = os.path.join(directory, filename).split("FlyerScan", 1)[1]
 
     # Create a new ScanHistory object for this upload
     scan_history = ScanHistory(
         author=current_user,
         flyer_name=filename,
-        flyer_url=os.path.join(directory, filename)
+        flyer_url=relative_path
     )
     db.session.add(scan_history)
     db.session.commit()
-
-    relative_path = os.path.join(directory, filename).split("FlyerScan", 1)[1]
 
     # Redirect the user to a page to display the overlayed uploaded file
     return 'Image captured' and display_file(relative_path)   
 
     # # for now returns Image capture TODO: will link this with overlayed image    
     # return 'Image captured'
-
 
 
 @views.route('/upload_file', methods=['POST'])
@@ -103,17 +101,17 @@ def upload_file():
     # Save the file with the new filename
     file.save(os.path.join(directory, filename))
 
+    relative_path = os.path.join(directory, filename).split("FlyerScan", 1)[1]
+    print(relative_path)
+
     # Create a new ScanHistory object for this upload
     scan_history = ScanHistory(
         author=current_user,
         flyer_name=filename,
-        flyer_url=os.path.join(directory, filename)
+        flyer_url=relative_path
     )
     db.session.add(scan_history)
     db.session.commit()
-
-    relative_path = os.path.join(directory, filename).split("FlyerScan", 1)[1]
-    print(relative_path)
 
     # Redirect the user to a page to display the overlayed uploaded file
     return display_file(relative_path)
@@ -123,3 +121,16 @@ def upload_file():
 def display_file(flyerPath):
     # Render a template to display the uploaded file
     return render_template('display_file.html', flyerPath=flyerPath)
+
+@views.route('/history', methods=['GET'])
+def displayHistory():
+    
+    userScanHist = ScanHistory.query.filter_by(author=current_user).all()
+
+    return render_template("history.html", userScanHist=userScanHist)
+
+
+@views.route('/account', methods=['GET', 'POST'])
+def displayAccount():
+
+    return render_template("account.html")
