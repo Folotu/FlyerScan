@@ -51,3 +51,4 @@ URLObject==2.4.3
 Werkzeug==2.2.2
 WTForms==3.0.1
 zipp==3.13.0
+google-api-python-client
