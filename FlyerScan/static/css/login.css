@@ -1,38 +1,40 @@
-.login-container{
+.login-container {
     margin-left: 25vw;
-    margin-right:25vw;
+    margin-right: 25vw;
+}
+
+.container#login {
     margin-top: 25vh;
 }
 
-.container#login{
-    margin-top: 35vh;
-}
-.container#signup{
+.container#signup {
     margin-top: 25vh;
 
 }
 
-#logo{
-    font-size: 5rem;
-    text-align: center; 
-    padding-bottom: 0.5em; 
+
+#logo {
+    font-size: 4rem;
+    text-align: center;
+    padding-bottom: 0.5em;
     background-color: #f3ec78;
-    background-image: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(104,9,121,1) 25%, rgba(0,212,255,1) 100%);;
+    background-image: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(104, 9, 121, 1) 25%, rgba(0, 212, 255, 1) 100%);
+    ;
     background-size: 100%;
     -webkit-background-clip: text;
     -moz-background-clip: text;
-    -webkit-text-fill-color: transparent; 
+    -webkit-text-fill-color: transparent;
     -moz-text-fill-color: transparent;
 }
 
-.row#row1{
+.row#row1 {
     margin-top: 3%;
     display: grid;
     justify-content: center;
     align-items: center;
 }
 
-.row#row2{
+.row#row2 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,7 +43,7 @@
 
 }
 
-.row#login-with{
+.row#login-with {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -49,11 +51,42 @@
     text-align: center;
 }
 
-i#login-icon{
+
+i#login-icon {
     font-size: 25px;
     margin-right: 10px;
 }
 
-button#external-login{
-    display: flex;
+button.btn.btn-secondary.login {
+    margin: 5px;
+}
+
+button.btn.btn-primary {
+    background-color: #404CCF;
+    padding: 15px;
+    margin-top: 1em;
+}
+
+button.btn.btn-secondary.google {
+    margin-top: 1em;
+    background-color: white;
+    color: inherit;
+    max-width: 65%;
+
+}
+
+button.btn.btn-secondary.github {
+    margin-top: 1em;
+    background-color: black;
+    max-width: 65%;
+
+}
+
+img#login-icon {
+    vertical-align: middle;
+}
+
+i#login-icon {
+    vertical-align: middle;
+
 }
