@@ -268,5 +268,24 @@ def displayHistory():
 
 @views.route('/account', methods=['GET', 'POST'])
 def displayAccount():
+    
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
 
-    return render_template("account.html")
+        if username:
+            current_user.username = username
+
+        if email:
+            current_user.email = email
+
+        if password and password == confirm_password:
+            current_user.password = generate_password_hash(password)
+
+        db.session.commit()
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('views.displayAccount'))
+
+    return render_template('account.html', title='Account')
