@@ -13,6 +13,7 @@ import json
 import os
 import shutil
 import arrow
+from .BERTparser import BertGens
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -102,25 +103,50 @@ def sizeIsOK(filepath):
     else:
         return True
 
-def ocr_space_file(filename, overlay=False, language='eng'):
+# def ocr_space_file(filename, overlay=False, language='eng'):
 
+#     #overlay = True
+#     payload = {'isOverlayRequired': overlay,
+#                'apikey': os.getenv('OCR_API_KEY'),
+#                'language': language,
+#                'OCREngine': 5
+#                }
+#     with open(filename, 'rb') as f:
+#         r = requests.post('https://api.ocr.space/parse/image',
+#                           files={filename: f},
+#                           data=payload,
+#                           )
+#     print(r.status_code)
+#     print(r.reason)
+#     rDict = json.loads(r.content.decode())
+
+#     if overlay:
+#         createOverlay(image_file_name=filename, json_file_data=rDict)
+
+#     # Extract the ParsedText value from the dictionary
+#     prsdText = ""
+#     if "ParsedResults" in rDict and len(rDict["ParsedResults"]) > 0 and "ParsedText" in rDict["ParsedResults"][0]:
+#         prsdText = rDict["ParsedResults"][0]["ParsedText"]
+
+#     return prsdText
+
+def ocr_space_url(url, overlay=False, language='eng'):
     #overlay = True
-    payload = {'isOverlayRequired': overlay,
+
+    payload = {'url': url,
+               'isOverlayRequired': overlay,
                'apikey': os.getenv('OCR_API_KEY'),
                'language': language,
-               'OCREngine': 5
                }
-    with open(filename, 'rb') as f:
-        r = requests.post('https://api.ocr.space/parse/image',
-                          files={filename: f},
-                          data=payload,
-                          )
+    r = requests.post('https://api.ocr.space/parse/image',
+                      data=payload,
+                      )
     print(r.status_code)
     print(r.reason)
     rDict = json.loads(r.content.decode())
 
-    if overlay:
-        createOverlay(image_file_name=filename, json_file_data=rDict)
+    # if overlay:
+    #     createOverlay(image_file_name=filename, json_file_data=rDict)
 
     # Extract the ParsedText value from the dictionary
     prsdText = ""
@@ -132,17 +158,18 @@ def ocr_space_file(filename, overlay=False, language='eng'):
 
 def extract_text(image_path):
     # Perform OCR using Tesseract
-    with Image.open(image_path) as img:
-        text = pytesseract.image_to_string(img)
-        with open('output.txt', 'w') as f:
-            f.write(text)
+    # with Image.open(image_path) as img:
+    #     text = pytesseract.image_to_string(img)
+    #     with open('output.txt', 'w') as f:
+    #         f.write(text)
 
     # check image dimensions
-    if not sizeIsOK(image_path):
-        image_path = imageResize(image_path)
+    # if not sizeIsOK(image_path):
+    #     image_path = imageResize(image_path)
         
     # Perform OCR using API
-    text = ocr_space_file(filename=image_path)
+    # text = ocr_space_file(filename=image_path)
+    text = ocr_space_url(url=image_path)
     with open('outputWithAPI.txt', 'w', encoding="utf-8") as f:
             f.write(text)
 
@@ -273,21 +300,34 @@ def calendarGen(fields):
     return str(title), date, fields['time'],fields['start_time'], fields['end_time'], desc, location
 
 
-try:
-    fields = find_fields(extract_text("SampleFlyers/12.png")) 
-    title, date, time, startime, endtime, desc, location = calendarGen(fields=fields)
+def startEventParsing(imageURLorPath):
+    try:
+        fields = find_fields(extract_text(imageURLorPath)) 
+        title, date, time, startime, endtime, desc, location = calendarGen(fields=fields)
+        if not startime:
+            f = open("outputWithApi.txt", "r")
+            print("Used BERT")
+            return BertGens(f.read())
+        
+        return fields
+
+    except AttributeError as e:
+        print("Error:", e)
+        try: 
+            f = open("outputWithApi.txt", "r")
+            print("Used BERT")
+            return BertGens(f.read())
+            
+        except:
+            title, date, time, desc = None, None, None, ""
+            return {}
 
 
-except AttributeError as e:
-    print("Error:", e)
-    title, date, time, desc = None, None, None, ""
-
-
-print("Title:", title)
-print("Date:", date)
-print("Time:", time)
-print("start time:", startime)
-print("end time:", endtime)
-print("Location:", location)
-print("Description:", desc)
+        # print("Title:", title)
+        # print("Date:", date)
+        # print("Time:", time)
+        # print("start time:", startime)
+        # print("end time:", endtime)
+        # print("Location:", location)
+        # print("Description:", desc)
 

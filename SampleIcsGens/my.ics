@@ -2,16 +2,17 @@ BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//FlyerScan Calendar//mxm.dk//
 BEGIN:VEVENT
-SUMMARY:Computer Science
-DTSTART:20230415T090000
-DTEND:20230415T170000
-DTSTAMP:20230329T104507Z
-DESCRIPTION:The event takes place on 2023-04-15 from 9:00AM to 5:00 PM. Th
- e event is organized by CSUME\, Computer Science\, Computer\, Student Serv
- ice\, CompLine Alliarze.
-LOCATION:[]
-ORGANIZER:CSUME Computer Science Computer Student Service CompLine Alliarz
- e
+SUMMARY:Big Picture
+DTSTART:20230224T160000
+DTEND:20230224T173000
+DTSTAMP:20230413T034042Z
+DESCRIPTION:The event takes place on 2023-02-24 from 4:00 PM to 5:30 PM. T
+ he event location is PM Conference Center Roorn 105 Vanguard Engineering S
+ ociety University of California. The event is organized by Upperclass\, Pa
+ nel\, PM.
+LOCATION:['PM Conference Center Roorn 105 Vanguard Engineering Society Uni
+ versity of California']
+ORGANIZER:Upperclass Panel PM
 PRIORITY:5
 END:VEVENT
 END:VCALENDAR

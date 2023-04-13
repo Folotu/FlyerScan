@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Display file</title>
+    <title>Display flyer</title>
 </head>
 <body>
-    <h1>Displayed file</h1>
+    <h1>Displayed flyer</h1>
 
-    <img src="{{flyerPath}}" alt="Uploaded image">
+    <img src="{{toSend['flyerPath']}}" alt="Uploaded image">
+    <br></br>
+
+    <h1>Extracted Information</h1>
+
+    'title': {{toSend['title']}}, <br></br>
+    'date':{{toSend['date']}}  <br></br>
+    'time': {{toSend['time']}}  <br></br>
+    'start_time':  {{toSend['start_time']}}  <br></br>
+    'end_time':{{toSend['end_time']}}  <br></br>
+    'location': {{toSend['location']}} <br></br>
+    'desc': {{toSend['desc']}}  <br></br>
+    'org': {{toSend['org']}} <br></br>
+
 </body>
 </html>
 
