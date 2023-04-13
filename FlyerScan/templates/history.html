@@ -1,21 +1,22 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}{% endblock %} {% block header
+%}{%endblock %} {% block body %}
 
-{% block title %}{% endblock %} 
-
-{% block header %}{%endblock %} 
-
-{% block body %}
-
-  <h1>Scan History</h1>
-  <div class="card-stack">
-    {% for scan in userScanHist|sort(attribute='updated_at',reverse=True) %}
-      <div class="card">
-        <img src="{{ scan.flyer_url }}" alt="{{ scan.flyer_name }}" class="card-img-top" height=600 width=400>
-        <div class="card-body">
-          <h5 class="card-title">{{ scan.flyer_name }}</h5>
-          <p class="card-text">Last Updated: {{ scan.updated_at }}</p>
-        </div>
-      </div>
-    {% endfor %}
+<h1>Scan History</h1>
+<div class="card-stack">
+  {% for scan in userScanHist|sort(attribute='updated_at',reverse=True) %}
+  <div class="card">
+    <img
+      src="{{ scan.flyer_url }}"
+      alt="{{ scan.flyer_name }}"
+      class="card-img-top"
+      height="600"
+      width="400"
+    />
+    <div class="card-body">
+      <h5 class="card-title">{{ scan.flyer_name }}</h5>
+      <p class="card-text">Last Updated: {{ scan.updated_at }}</p>
+    </div>
   </div>
+  {% endfor %}
+</div>
 {% endblock %}
