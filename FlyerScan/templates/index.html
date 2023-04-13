@@ -1,9 +1,5 @@
-{% extends 'base.html' %} 
-{% block title %}{% endblock %} 
-
-{% block header %}{%endblock %} 
-
-{% block body %}
+{% extends 'base.html' %} {% block title %}{% endblock %} {% block header
+%}{%endblock %} {% block body %}
 
 <html>
   <body>
@@ -23,12 +19,22 @@
           />
         </label>
         <p id="upload-button-label">Upload Flyer</p>
-        <form id="file-upload-form" method="POST" enctype="multipart/form-data" action="{{ url_for('views.upload_file') }}" style="display:none;">
-          <input id="file-upload" type="file" name="file" onchange="document.getElementById('file-upload-form').submit();" />
+        <form
+          id="file-upload-form"
+          method="POST"
+          enctype="multipart/form-data"
+          action="{{ url_for('views.upload_file') }}"
+          style="display: none"
+        >
+          <input
+            id="file-upload"
+            type="file"
+            name="file"
+            onchange="document.getElementById('file-upload-form').submit();"
+          />
         </form>
       </div>
     </div>
-
   </body>
 </html>
-{%endblock %} 
+{%endblock %}
