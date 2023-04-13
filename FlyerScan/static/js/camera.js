@@ -27,17 +27,21 @@ function requestCameraPermissions() {
 
 
 captureImageBtn.addEventListener('click', () => {
-    // Create a canvas element to capture the image
-    const canvas = document.createElement('canvas');
-    canvas.width = cameraStream.videoWidth;
-    canvas.height = cameraStream.videoHeight;
-    const context = canvas.getContext('2d');
-    context.drawImage(cameraStream, 0, 0, canvas.width, canvas.height);
-    // Convert the image to a base64-encoded string
-    const imageData = canvas.toDataURL('image/jpeg');
-    // Store the image data in the input field
-    imageDataInput.value = imageData;
-    // Submit the form to process the image
-    const submitButton = document.querySelector('form button[type="submit"]');
-    submitButton.click();
+  // Create a canvas element to capture the image
+  const canvas = document.createElement('canvas');
+  canvas.width = cameraStream.videoWidth;
+  canvas.height = cameraStream.videoHeight;
+  const context = canvas.getContext('2d');
+  context.drawImage(cameraStream, 0, 0, canvas.width, canvas.height);
+  // Convert the image to a base64-encoded string
+  const imageData = canvas.toDataURL('image/jpeg');
+  // Store the image data in the input field
+  imageDataInput.value = imageData;
+  // Show the loading message or spinner
+  const overlay = document.querySelector('#overlay');
+  overlay.style.display = 'flex';
+  // Submit the form to process the image
+  const submitButton = document.querySelector('form button[type="submit"]');
+  submitButton.click();
 });
+
