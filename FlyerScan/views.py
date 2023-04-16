@@ -15,6 +15,7 @@ from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaIoBaseUpload
+from .EventParser import startEventParsing
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -135,15 +136,24 @@ def process_image():
             media_body=media,
             fields='id,webViewLink'
         ).execute()
+
+        toSend = startEventParsing(get_file_id_from_link(file.get("webViewLink")))
+        toSend['flyerPath'] = get_file_id_from_link(file.get("webViewLink"))
+
+        calLink = f"https://calndr.link/d/event/?service=outlook&start={toSend['date']} {toSend['start_time']}&end={toSend['date']} {toSend['end_time']}&title={toSend['title']}&timezone=America/Los_Angeles&description={toSend['desc']}&location={toSend['location']}"
+
         # Create a new ScanHistory object for this upload
         scan_history = ScanHistory(
             author=current_user,
             flyer_name=filename,
-            flyer_url=get_file_id_from_link(file.get("webViewLink"))
+            flyer_url=get_file_id_from_link(file.get("webViewLink")),
+            calendar_name = toSend['title'],
+            calendar_url = calLink
         )
         db.session.add(scan_history)
         db.session.commit()
-        return f'File successfully uploaded'and display_file(get_file_id_from_link(file.get("webViewLink")))
+
+        return f'File successfully uploaded'and display_file(toSend)
     except HttpError as error:
         return f'An error occurred: {error}'
 
@@ -241,22 +251,33 @@ def upload_file():
             media_body=media,
             fields='id,webViewLink'
         ).execute()
+        
+        #return f'File successfully uploaded'
+        toSend = startEventParsing(get_file_id_from_link(file.get("webViewLink")))
+        toSend['flyerPath'] = get_file_id_from_link(file.get("webViewLink"))
+
+        calLink = f"https://calndr.link/d/event/?service=outlook&start={toSend['date']} {toSend['start_time']}&end={toSend['date']} {toSend['end_time']}&title={toSend['title']}&timezone=America/Los_Angeles&description={toSend['desc']}&location={toSend['location']}"
+
         # Create a new ScanHistory object for this upload
         scan_history = ScanHistory(
             author=current_user,
             flyer_name=filename,
-            flyer_url=get_file_id_from_link(file.get("webViewLink"))
+            flyer_url=get_file_id_from_link(file.get("webViewLink")),
+            calendar_name = toSend['title'],
+            calendar_url = calLink
         )
         db.session.add(scan_history)
         db.session.commit()
-        return f'File successfully uploaded'
+
+        return display_file(toSend)
+    
     except HttpError as error:
         return f'An error occurred: {error}'
 
 @views.route('/display_file')
-def display_file(flyerPath):
+def display_file(toSend):
     # Render a template to display the uploaded file
-    return render_template('display_file.html', flyerPath=flyerPath)
+    return render_template('display_file.html', toSend=toSend)
 
 @views.route('/history', methods=['GET'])
 def displayHistory():
