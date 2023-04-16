@@ -1,6 +1,8 @@
 {% extends 'base.html' %} {% block title %}{% endblock %} {% block header
 %}{%endblock %} {% block body %}
+
 <link rel="stylesheet" href="../static/css/camera.css" />
+
 <html>
   <body>
 
@@ -25,7 +27,7 @@
           />
         </label>
         <p id="upload-button-label">Upload Flyer</p>
-        
+
         <form
           id="file-upload-form"
           method="POST"
@@ -37,6 +39,7 @@
             id="file-upload"
             type="file"
             name="file"
+
             onchange="document.getElementById('upload-button-label').style.display='none';
                       document.getElementById('uploadImgID').style.display='none';
                       document.getElementById('overlay1').style.display='flex';
@@ -45,7 +48,13 @@
         </form>
       </div>
     </div>   
-    
+
+            onchange="document.getElementById('file-upload-form').submit();"
+          />
+        </form>
+      </div>
+    </div>
+
   </body>
 </html>
 {%endblock %}
