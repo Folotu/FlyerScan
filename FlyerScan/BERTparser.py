@@ -17,12 +17,6 @@ summarizer = pipeline(
 )
 
 def BertGens(text):
-    # text = """CSUME
-    # April 15, 2023
-    # Are you interested in research? Drones? Or want to meet other Computer Science students like you? 
-    # Join us for the annual Computer Science 4 Me day! The event will have graduate student and industry panel, 
-    # networking lunch, graduate student lab tours, and a Tello drone team activity. 
-    # Register by March 24th! Time: 9:00AM - 5:00 PM Location: UC Merced, Student Service Building 120 & 130"""
 
     titleSum = summarizer(text, max_length=4, min_length=1, do_sample=False)
     title = titleSum[0]['summary_text']
@@ -66,13 +60,13 @@ def BertGens(text):
         location = location_match.group(2)
 
     fields = {
-        "Title": title,
-        "Date": date,
-        "Time": None,
-        "Start time": start_time,
-        "End time": end_time,
-        "Location": location,
-        "Description": description
+        "title": title,
+        "date": date,
+        "time": None,
+        "start_time": start_time,
+        "end_time": end_time,
+        "location": location,
+        "desc": description
     }
 
     print(fields)

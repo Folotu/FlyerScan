@@ -248,6 +248,7 @@ def upload_file():
         #return f'File successfully uploaded'
         toSend = startEventParsing(get_file_id_from_link(file.get("webViewLink")))
         toSend['flyerPath'] = get_file_id_from_link(file.get("webViewLink"))
+
         calLink = f"https://calndr.link/d/event/?service=outlook&start={toSend['date']} {toSend['start_time']}&end={toSend['date']} {toSend['end_time']}&title={toSend['title']}&timezone=America/Los_Angeles&description={toSend['desc']}&location={toSend['location']}"
 
         # Create a new ScanHistory object for this upload
