@@ -136,16 +136,23 @@ def process_image():
             media_body=media,
             fields='id,webViewLink'
         ).execute()
+
+        toSend = startEventParsing(get_file_id_from_link(file.get("webViewLink")))
+        toSend['flyerPath'] = get_file_id_from_link(file.get("webViewLink"))
+
+        calLink = f"https://calndr.link/d/event/?service=outlook&start={toSend['date']} {toSend['start_time']}&end={toSend['date']} {toSend['end_time']}&title={toSend['title']}&timezone=America/Los_Angeles&description={toSend['desc']}&location={toSend['location']}"
+
         # Create a new ScanHistory object for this upload
         scan_history = ScanHistory(
             author=current_user,
             flyer_name=filename,
-            flyer_url=get_file_id_from_link(file.get("webViewLink"))
+            flyer_url=get_file_id_from_link(file.get("webViewLink")),
+            calendar_name = toSend['title'],
+            calendar_url = calLink
         )
         db.session.add(scan_history)
         db.session.commit()
-        toSend = {}
-        toSend['flyerPath'] = get_file_id_from_link(file.get("webViewLink"))
+
         return f'File successfully uploaded'and display_file(toSend)
     except HttpError as error:
         return f'An error occurred: {error}'
