@@ -1,0 +1,80 @@
+.history-container {
+    overflow-y: scroll;
+    max-height: 82vh;
+}
+
+a#scanned-container {
+    text-decoration: none;
+    color: inherit;
+}
+
+.scanned-container img,
+.scanned-container p {
+    display: inline-block;
+    vertical-align: middle;
+
+
+}
+
+.scanned-container p {
+    margin-left: 10px;
+}
+
+.scanned-container {
+    box-shadow: 10px 10px 10px rgb(209, 212, 212);
+    background-color: white;
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+    margin-bottom: 1em;
+    border-radius: 10px;
+
+
+}
+
+
+img#image-thumbnail {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 10px;
+
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.search-box input[type="text"] {
+    padding: 8px 12px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 300px;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.search-box button[type="submit"] {
+    background-color: transparent;
+    color: #000;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    margin-left: -30px;
+}
+
+.search-box .microphone-btn {
+    background-color: transparent;
+    color: #000;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    margin-left: -30px;
+}
+
+p#flyer-name {
+    font-weight: bold;
+}

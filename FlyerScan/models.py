@@ -53,4 +53,4 @@ class ScanHistory(db.Model):
 
 
     def __str__(self):
-        return self.flyer_name + "\n" + self.author
+        return self.flyer_name + "\n" + str(self.author)

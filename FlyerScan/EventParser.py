@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw, ImageFont
 import requests
 import json
 import os
+from io import BytesIO
 import shutil
 import arrow
 from dotenv import load_dotenv
@@ -65,62 +66,117 @@ def createOverlay(image_file_name, json_file_data):
 
 def imageResize(filepath):
 
-    # basewidth = 1000
-    img = Image.open(filepath)
-    # wpercent = (basewidth/float(img.size[0]))
-    # hsize = int((float(img.size[1])*float(wpercent)))
-    # print(hsize)
-    # hsize = 1000
-    img = img.resize((434,600), Image.Resampling.LANCZOS)
-    image_file_name_without_extension = os.path.splitext(filepath)[0]
-    output_file_name = image_file_name_without_extension + "_Resized.png"
+    # img = Image.open(filepath)
+    # img = img.resize((434,600), Image.Resampling.LANCZOS)
+    # image_file_name_without_extension = os.path.splitext(filepath)[0]
+    # output_file_name = image_file_name_without_extension + "_Resized.png"
+    response = requests.get(filepath)
+    if response.status_code == 200:
+        img = Image.open(BytesIO(response.content))
+        resized_img = img.resize((434,600), Image.Resampling.LANCZOS)
+        output = BytesIO()
+        resized_img.save(output, format="PNG")
+        output.seek(0)
+        return output
+    else:
+        raise Exception(f"Failed to fetch image: {response.status_code}")
 
-    print('resized')
-    img.save(output_file_name, optimize=True, quality=85)
-    return output_file_name
+    # print('resized')
+    # img.save(output_file_name, optimize=True, quality=85)
+    # return output_file_name
 
     # url = f'https://resize.sardo.work/?imageUrl={image_url}&width={1000}&height={1000}'
     # response = requests.get(url, stream=True)
     # print(response.raw)
 
     # with open('sample.png', 'wb') as out_file:
-    # shutil.copyfileobj(response.raw, out_file)
+    #     shutil.copyfileobj(response.raw, out_file)
 
     # print('The file was saved successfully')
 
 def sizeIsOK(filepath):
-    img = Image.open(filepath)
+    # img = Image.open(filepath)
+    # # get width and height
+    # width = img.width
+    # height = img.height
+    # if (width > 1000 or height > 1000):
+    #     return False
+    # elif (os.stat(filepath)).st_size >= 1000000:
+    #     return False
+    # else:
+    #     return True
     
-    # get width and height
-    width = img.width
-    height = img.height
+    response = requests.get(filepath)
 
-    if (width > 1000 or height > 1000):
-        return False
-    elif (os.stat(filepath)).st_size >= 1000000:
-        return False
+    if response.status_code == 200:
+        # Get the size of the file in bytes from the Content-Length header
+        file_size = int(response.headers.get('Content-Length', 0))
+        img = Image.open(BytesIO(response.content))
+        width, height = img.size
+
+        if file_size >= 1000000:
+                return False
+        elif (width > 1000 or height > 1000):
+            return False
+        else:
+            return True
     else:
-        return True
+        raise Exception(f"Failed to fetch image: {response.status_code}")
 
-def ocr_space_file(filename, overlay=False, language='eng'):
 
+# def ocr_space_file(filename, overlay=False, language='eng'):
+
+#     #overlay = True
+#     payload = {'isOverlayRequired': overlay,
+#                'apikey': os.getenv('OCR_API_KEY'),
+#                'language': language,
+#                'OCREngine': 5
+#                }
+#     with open(filename, 'rb') as f:
+#         r = requests.post('https://api.ocr.space/parse/image',
+#                           files={filename: f},
+#                           data=payload,
+#                           )
+#     print(r.status_code)
+#     print(r.reason)
+#     rDict = json.loads(r.content.decode())
+
+#     if overlay:
+#         createOverlay(image_file_name=filename, json_file_data=rDict)
+
+#     # Extract the ParsedText value from the dictionary
+#     prsdText = ""
+#     if "ParsedResults" in rDict and len(rDict["ParsedResults"]) > 0 and "ParsedText" in rDict["ParsedResults"][0]:
+#         prsdText = rDict["ParsedResults"][0]["ParsedText"]
+
+#     return prsdText
+
+def ocr_space_url(url, fileData, overlay=False, language='eng'):
     #overlay = True
-    payload = {'isOverlayRequired': overlay,
-               'apikey': os.getenv('OCR_API_KEY'),
-               'language': language,
-               'OCREngine': 5
-               }
-    with open(filename, 'rb') as f:
-        r = requests.post('https://api.ocr.space/parse/image',
-                          files={filename: f},
-                          data=payload,
-                          )
+    if url is not None:
+        payload = {'url': url,
+                'isOverlayRequired': overlay,
+                'apikey': os.getenv('OCR_API_KEY'),
+                'language': language}
+        r = requests.post('https://api.ocr.space/parse/image', data=payload)
+
+    else:
+        payload = {'isOverlayRequired': overlay,
+                'apikey': os.getenv('OCR_API_KEY'),
+                'language': language,
+                'OCREngine': 5 }
+
+        files = {
+        "file": ("resized_image.jpg", fileData, "image/png"),}
+        r = requests.post('https://api.ocr.space/parse/image', 
+                      data=payload, files=files)
+
     print(r.status_code)
     print(r.reason)
     rDict = json.loads(r.content.decode())
 
-    if overlay:
-        createOverlay(image_file_name=filename, json_file_data=rDict)
+    # if overlay:
+    #     createOverlay(image_file_name=filename, json_file_data=rDict)
 
     # Extract the ParsedText value from the dictionary
     prsdText = ""
@@ -132,21 +188,25 @@ def ocr_space_file(filename, overlay=False, language='eng'):
 
 def extract_text(image_path):
     # Perform OCR using Tesseract
-    with Image.open(image_path) as img:
-        text = pytesseract.image_to_string(img)
-        with open('output.txt', 'w') as f:
-            f.write(text)
+    # with Image.open(image_path) as img:
+    #     text = pytesseract.image_to_string(img)
+    #     with open('output.txt', 'w') as f:
+    #         f.write(text)
 
     # check image dimensions
     if not sizeIsOK(image_path):
-        image_path = imageResize(image_path)
-        
-    # Perform OCR using API
-    text = ocr_space_file(filename=image_path)
-    with open('outputWithAPI.txt', 'w', encoding="utf-8") as f:
+        imageData = imageResize(image_path)
+        # Perform OCR using API
+        text = ocr_space_url(url=None, fileData=imageData)
+        with open('outputWithAPI.txt', 'w', encoding="utf-8") as f:
+            f.write(text)
+    else:
+        # Perform OCR using API
+        # text = ocr_space_file(filename=image_path)
+        text = ocr_space_url(url=image_path, fileData=None)
+        with open('outputWithAPI.txt', 'w', encoding="utf-8") as f:
             f.write(text)
 
-    
     return text
 
 def find_fields(text):
@@ -273,21 +333,42 @@ def calendarGen(fields):
     return str(title), date, fields['time'],fields['start_time'], fields['end_time'], desc, location
 
 
-try:
-    fields = find_fields(extract_text("SampleFlyers/12.png")) 
-    title, date, time, startime, endtime, desc, location = calendarGen(fields=fields)
+def startEventParsing(imageURLorPath):
+    try:
+        fields = find_fields(extract_text(imageURLorPath)) 
+        title, date, time, startime, endtime, desc, location = calendarGen(fields=fields)
+
+        if not startime or date:
+            from .BERTparser import BertGens
+            f = open("outputWithApi.txt", "r")
+            print("Used BERT1")
+            bertFields = BertGens(f.read())
+            if bertFields['date'] is None and date is not None:
+                bertFields['date'] = date
+            if bertFields['start_time'] is None and startime is not None:
+                bertFields['start_time'] = startime
+            return bertFields
+        
+        return fields
+
+    except AttributeError as e:
+        print("Error:", e)
+        try: 
+            from .BERTparser import BertGens
+            f = open("outputWithApi.txt", "r")
+            print("Used BERT")
+            return BertGens(f.read())
+            
+        except:
+            title, date, time, desc = None, None, None, ""
+            return {}
 
 
-except AttributeError as e:
-    print("Error:", e)
-    title, date, time, desc = None, None, None, ""
-
-
-print("Title:", title)
-print("Date:", date)
-print("Time:", time)
-print("start time:", startime)
-print("end time:", endtime)
-print("Location:", location)
-print("Description:", desc)
+        # print("Title:", title)
+        # print("Date:", date)
+        # print("Time:", time)
+        # print("start time:", startime)
+        # print("end time:", endtime)
+        # print("Location:", location)
+        # print("Description:", desc)
 
