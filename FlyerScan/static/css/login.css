@@ -4,11 +4,11 @@
 }
 
 .container#login {
-    margin-top: 25vh;
+    margin-top: 15vh;
 }
 
 .container#signup {
-    margin-top: 25vh;
+    margin-top: 15vh;
 
 }
 
@@ -89,4 +89,10 @@ img#login-icon {
 i#login-icon {
     vertical-align: middle;
 
+}
+
+img#main-logo{
+    max-width: 75px;
+    max-height: 75px;
+    margin: 0.25em;
 }

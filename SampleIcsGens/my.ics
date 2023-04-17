@@ -2,14 +2,17 @@ BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//FlyerScan Calendar//mxm.dk//
 BEGIN:VEVENT
-SUMMARY:None
-DTSTART:20230303T170000
-DTEND:20230303T000000
-DTSTAMP:20230416T064737Z
-DESCRIPTION:The event takes place on 2023-03-03 at 5PM. The event is organ
- ized by VALLEY\, AND\, TUOLUMNE\, LOUNGE\, AMAZON.
-LOCATION:[]
-ORGANIZER:VALLEY AND TUOLUMNE LOUNGE AMAZON
+SUMMARY:A Career
+DTSTART:20231027T170000
+DTEND:20231027T000000
+DTSTAMP:20230417T074232Z
+DESCRIPTION:The event takes place on 2023-10-27 at 5 pm. The event locatio
+ n is pm Administration Building\, Room 306 Email studentaffairsaecmerced f
+ or more info. The event is organized by Student Affairs\, Student Affairs\
+ , Administration Building.
+LOCATION:['pm Administration Building\, Room 306 Email studentaffairsaecme
+ rced for more info']
+ORGANIZER:Student Affairs Student Affairs Administration Building
 PRIORITY:5
 END:VEVENT
 END:VCALENDAR
