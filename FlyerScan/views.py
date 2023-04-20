@@ -9,6 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, url_for
 from flask_wtf.file import FileField
 import cv2
+import re
 import os
 import io
 from google.oauth2.service_account import Credentials
@@ -273,6 +274,51 @@ def upload_file():
     
     except HttpError as error:
         return f'An error occurred: {error}'
+    
+@views.route('/edit_file/<int:id>', methods=['GET', 'POST'])
+def edit_post(id):
+
+    ## 
+    newData = ScanHistory.query.filter_by(author=current_user, id = id).all()
+    ## new disctionary to store flyer info
+    flyerInfo = {}
+    ## template for grabbing data from string
+    template = {'title':r"title=(.*?)&",
+                    'date':r"start=(.*?)\s",
+                    'start_time':r"start=.*?\s(.*?)&" ,
+                    'end_time':r"end=.*?\s(.*?)&",
+                    'location':r"location=(.*)",
+                    'description':r"description=(.*?)&"
+        }
+    ## grabs string data at specific points
+    for key, flyerInfo in template.items():
+        match = re.search(template, newData.calendar_url)
+        if match:
+            flyerInfo[key] = match.group(1)
+
+    ## if method is simply GET, displays current info on flyer
+    if request.method == "GET":
+        return display_file(flyerInfo)
+    
+    ## if method is post, gets new entry data from input fields and sets to 
+    ## new dictionary editData
+    elif request.method == "POST":
+        editData = {}
+        editData['title'] = request.form.get('title')
+        editData['date'] = request.form.get('date')
+        editData['start_time'] = request.form.get('start_time')
+        editData['end_time'] = request.form.get('end_time')
+        editData['location'] = request.form.get('location')
+        editData['description'] = request.form.get('description')
+        
+        ## for loop to replace flyerInfo data with new values
+        for key, value in editData.items():
+            if key in flyerInfo:
+                flyerInfo[key] = value
+        
+        ## returns display with new flyerInfo
+        return display_file(flyerInfo)
+
 
 @views.route('/display_file')
 def display_file(toSend):

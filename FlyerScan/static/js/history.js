@@ -35,3 +35,11 @@ function searchFunction(searchTerm) {
   // your search function here
   console.log(`Searching for ${searchTerm}...`);
 }
+
+/* function that grabs scan id and reroutes to edit page with clicked flyer */
+function Route(){
+  let flyerID = document.getElementById("flyer-id").value;
+  var loc ="/edit_file/" + flyerID;
+  /* window.location.href=loc; */
+  console.log(flyerID)
+}

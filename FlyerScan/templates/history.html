@@ -20,9 +20,8 @@
 
 
   <!----------------------------------- We can change the href here for the attribute tag to the edit page for the unique scanned flyer. ------------------------------------------------------------------ -->
-  <a id="scanned-container" href="/">
+  <a id="scanned-container" href="javascript:;" onclick="Route()">
     <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
-
 
     
     <div class="scanned-container">
@@ -34,13 +33,16 @@
         alt="{{ scan.flyer_name }}"
       />
       <p id="flyer-name">{{ scan.flyer_name }}</p>
+      <!-- scan.id does not work, need current ID to route to edit-->
+      <p id="flyer-id" style="display:none;">{{ scan.id }}</p>
     </div>
   </a>
 
-  {% endfor %} {% endblock %}
+  {% endfor %} 
 </div>
 
 <script
   type="text/javascript"
   src="{{ url_for('static', filename='/js/history.js') }}"
 ></script>
+{% endblock %}
