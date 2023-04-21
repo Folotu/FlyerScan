@@ -8,7 +8,6 @@ from sqlalchemy import desc
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, url_for
 from flask_wtf.file import FileField
-import cv2
 import re
 import os
 import io
@@ -23,16 +22,16 @@ load_dotenv()
 
 views = Blueprint('views', __name__)
 
-def gen_frames():
-    camera = cv2.VideoCapture(0)
-    while True:
-        success, frame = camera.read()
-        if not success:
-            break
-        ret, buffer = cv2.imencode('.jpg', frame)
-        frame = buffer.tobytes()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+# def gen_frames():
+#     camera = cv2.VideoCapture(0)
+#     while True:
+#         success, frame = camera.read()
+#         if not success:
+#             break
+#         ret, buffer = cv2.imencode('.jpg', frame)
+#         frame = buffer.tobytes()
+#         yield (b'--frame\r\n'
+#                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
 @views.route('/', methods=['GET','POST'])
 def index():
@@ -316,6 +315,9 @@ def edit_post(id):
             if key in flyerInfo:
                 flyerInfo[key] = value
         
+        updatedCal = ScanHistory(author = current_user, calendar_url = flyerInfo)
+        db.session.add(updatedCal)
+        db.session.commit()
         ## returns display with new flyerInfo
         return display_file(flyerInfo)
 

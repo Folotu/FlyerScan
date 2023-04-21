@@ -37,9 +37,12 @@ function searchFunction(searchTerm) {
 }
 
 /* function that grabs scan id and reroutes to edit page with clicked flyer */
-function Route(){
-  let flyerID = document.getElementById("flyer-id").value;
-  var loc ="/edit_file/" + flyerID;
-  /* window.location.href=loc; */
-  console.log(flyerID)
+var editLinks = document.querySelectorAll('a[data-url]')
+for (var i =0; i < editLinks.length; i++ ){
+  var editLink = editLinks[i];
+  editLink.addEventListener('click', function(event){
+    event.preventDefault();
+    var flyerURL = this.getAttribute('data-url');
+    window.location.href = flyerURL;
+  });
 }
