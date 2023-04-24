@@ -7,81 +7,81 @@
   rel="stylesheet"
   href="{{ url_for('static', filename = '/css/edit.css') }}"
 />
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename = '/css/history.css') }}"
+/>
 
 <div class="full-page-container"> 
 
-  <div class="flyer-container">
-    <h1>Displayed flyer</h1>
-
+  <div class="mb-3">
     <img 
       class="img-fluid"
       src="{{toSend['flyerPath']}}" alt="Uploaded image"
       onload="displayConvertedTime()"
     >
-    <br>
   </div>
-
   <div class="edit-container">
-
     <form method="post">
-      <label for="title">Title:</label>
-      <input type="text" 
-        id="title" 
-        name="title"
-        value="{{toSend['title']}}">
-      <br><br>
-      <label for="date">Date:</label>
-      <input type="date" 
-        id="date" 
-        name="date"
-        value="{{toSend['date']}}">
-      <br><br>
-      <label for="start_time">Start Time:</label>
-      <input type="time" 
-        id="start_time" 
-        name="start_time"
-        value="{{toSend['start_time']}}">
-      <br><br>
-      <label for="end_time">End Time:</label>
-      <input type="time" 
-        id="end_time" 
-        name="end_time"
-        value="{{toSend['end_time']}}">
-      <br><br>
-      <label for="location">Location:</label>
-      <input type="text" 
-        id="location" 
-        name="location"
-        value="{{toSend['location']}}">
-      <br><br>
-      <label for="description">Description:</label>
-      <textarea id="description" 
-        name="description"
-      >{{toSend['desc']}}</textarea>
-      <br><br>
-      <input type="submit" value="Edit">
+      <div class="form-floating mb-3">
+        <input type="text"
+          class="form-control" 
+          id="title" 
+          name="title"
+          value="{{toSend['title']}}">
+        <label for="title">Title</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="date"
+          class="form-control" 
+          id="date" 
+          name="date"
+          value="{{toSend['date']}}">
+        <label for="date">Date</label>
+      </div>
+      <div class="input-group">
+        <div class="form-floating col-md-2">
+          <input type="time"
+            class="form-control" 
+            id="start_time" 
+            name="start_time"
+            value="{{toSend['start_time']}}">
+          <label for="start_time">Start</label>
+        </div>
+        <span class="input-group-btn" style="width:0px;"></span>
+        <div class="form-floating col-md-2" >
+          <input type="time"
+          class="form-control"
+          id="end_time" 
+          name="end_time"
+          value="{{toSend['end_time']}}">
+          <label for="end_time">End</label>
+        </div>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="text"
+          class="form-control" 
+          id="location" 
+          name="location"
+          value="{{toSend['location']}}">
+        <label for="location">Location</label>  
+      </div>
+      <div class="mb-3">
+      <label for="description">Description</label>
+      <textarea
+          class="form-control"
+          id="description"
+          name="description"
+          rows="3">{{toSend['desc']}}</textarea>
+        
+      </div>
+      <div class="mb-3">
+      <input class="btn btn-secondary" type="submit" value="Edit" id="edit-button">
+      </div>
     </form>
-
-    <button onclick="window.location.href='{{toSend['calURL']}}'">Click to add to Personal Calendar</button>
-
-    
-    <!-- place holder for checking, delete later-->
-    <!-- <h1>Extracted Information</h1>
-
-    'title': {{toSend['title']}}, <br>
-    'date':{{toSend['date']}}  <br>
-    'time': {{toSend['time']}}  <br>
-    'start_time':  {{toSend['start_time']}}  <br>
-    'end_time':{{toSend['end_time']}}  <br>
-    'location': {{toSend['location']}} <br>
-    'desc': {{toSend['desc']}}  <br>
-    'org': {{toSend['org']}} <br> -->
-
-    <!-- <h1>Displayed file</h1> -->
-
-    <!-- <img src="{{flyerPath}}" alt="Uploaded image" /> -->
-
-<!--<img src="{{ url_for('static', filename='UploadedImages/uploadedImage.png') }}" alt="Uploaded image">-->
+    <div class="mb-3">     
+    <button class="btn btn-primary" id="cal-button" onclick="window.location.href='{{toSend['calURL']}}'">Click to add to Personal Calendar</button>
+    </div>
   </div>
 </div>
 <script>

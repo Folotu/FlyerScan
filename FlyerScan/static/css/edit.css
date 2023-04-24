@@ -3,10 +3,17 @@
     max-height: 82vh;
 }
 
-.flyer-container{
-
+.form-control{
+    border:0;
 }
 
-.edit-container{
+#edit-button{
+    margin: 10px;
+    padding: 15px;
+    min-width: 100px;
+}
 
+#cal-button{
+    margin: 10px;
+    padding: 20px;
 }
