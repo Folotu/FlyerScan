@@ -22,17 +22,6 @@ load_dotenv()
 
 views = Blueprint('views', __name__)
 
-# def gen_frames():
-#     camera = cv2.VideoCapture(0)
-#     while True:
-#         success, frame = camera.read()
-#         if not success:
-#             break
-#         ret, buffer = cv2.imencode('.jpg', frame)
-#         frame = buffer.tobytes()
-#         yield (b'--frame\r\n'
-#                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
 @views.route('/', methods=['GET','POST'])
 def index():
         toSend = {}
@@ -49,10 +38,7 @@ def index():
 
 @views.route('/camera', methods=['GET','POST'])
 def video_viewer():
-    # if request.method == 'GET':
-    #     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-    # else: 
-    #     pass
+
     return render_template('camera.html')
      
 @views.route('/process_image', methods=['POST'])
@@ -283,6 +269,7 @@ def edit_post(id):
         
         updatedCal = ScanHistory.query.filter_by(author=current_user, id = id).first()
         updatedCal.calendar_url = updatedCalInfo
+        updatedCal.calendar_name = request.form.get('title')
         db.session.add(updatedCal)
         db.session.commit()
 
@@ -315,11 +302,30 @@ def display_file(toSend):
     # Render a template to display the uploaded file
     return render_template('display_file.html', toSend=toSend)
 
-@views.route('/history', methods=['GET'])
+@views.route('/history', methods=['GET', 'POST'])
 def displayHistory():
     
     userScanHist = ScanHistory.query.filter_by(author=current_user).all()
 
+    if request.method == "POST":
+        # Initialize an empty list to store the matching ScanHistory models
+        matching_scan_histories = []
+        # Convert keyword to lowercase for case-insensitive search
+        keyword = request.json['data'].lower()
+        # Iterate through the scan_history_list
+        for scan_history in userScanHist:
+            # Convert attributes to lowercase for case-insensitive search
+            calendar_name = scan_history.calendar_name.lower() if scan_history.calendar_name else ""
+            flyer_name = scan_history.flyer_name.lower() if scan_history.flyer_name else ""
+
+            # Check if the keyword appears in the calendar_name, flyer_name, or description
+            if keyword in calendar_name or keyword in flyer_name:
+                # If the keyword is found, add the ScanHistory model to the matching_scan_histories list
+                matching_scan_histories.append(scan_history)
+        
+        search_results_html = render_template("history.html", userScanHist=matching_scan_histories)
+        return jsonify({"search_results_html": search_results_html})
+        
     return render_template("history.html", userScanHist=userScanHist)
 
 
