@@ -22,17 +22,6 @@ load_dotenv()
 
 views = Blueprint('views', __name__)
 
-# def gen_frames():
-#     camera = cv2.VideoCapture(0)
-#     while True:
-#         success, frame = camera.read()
-#         if not success:
-#             break
-#         ret, buffer = cv2.imencode('.jpg', frame)
-#         frame = buffer.tobytes()
-#         yield (b'--frame\r\n'
-#                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-
 @views.route('/', methods=['GET','POST'])
 def index():
         toSend = {}
@@ -49,10 +38,7 @@ def index():
 
 @views.route('/camera', methods=['GET','POST'])
 def video_viewer():
-    # if request.method == 'GET':
-    #     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-    # else: 
-    #     pass
+
     return render_template('camera.html')
      
 @views.route('/process_image', methods=['POST'])

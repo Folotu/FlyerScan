@@ -1,13 +1,17 @@
-ASSOCIATION FOR COMPUTING MACHINERY
-DJANGO
-WORKS!
-Thursday, April 20
-4:00 PM - 5:00 PM
-Glacier 150
-Do you want to learn how awesome websites
-are created with Python and Django? Then
-join me for a fun and interactive workshop
-where you will learn the basics of Django.
-Like exploring the main components of a
-Django website: models, views, templates,
-and URLs
+UNDERGRADUATE SERIES.
+Big Picture
+Advice from
+Upperclass
+Engineering
+Students
+In-person/Virtual Panel
+Friday, February 24
+4:00 PM - 5:30 PM
+Conference Center Roorn 105
+Vanguard Engineering Society
+University of California, Merced
+SCHOOL OF
+ENGINEERING
+IJCMERCED
+Register Here
+@ucm_vanguard
