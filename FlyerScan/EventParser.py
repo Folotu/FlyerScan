@@ -107,7 +107,7 @@ def sizeIsOK(filepath):
     #     return True
     
     response = requests.get(filepath)
-
+    
     if response.status_code == 200:
         # Get the size of the file in bytes from the Content-Length header
         file_size = int(response.headers.get('Content-Length', 0))

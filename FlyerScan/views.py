@@ -141,7 +141,7 @@ def process_image():
         toSend['flyerPath'] = get_file_id_from_link(file.get("webViewLink"))
 
         calLink = f"https://calndr.link/d/event/?service=outlook&start={toSend['date']} {toSend['start_time']}&end={toSend['date']} {toSend['end_time']}&title={toSend['title']}&timezone=America/Los_Angeles&description={toSend['desc']}&location={toSend['location']}"
-
+        toSend['calURL'] = calLink
         # Create a new ScanHistory object for this upload
         scan_history = ScanHistory(
             author=current_user,
@@ -257,7 +257,7 @@ def upload_file():
         toSend['flyerPath'] = get_file_id_from_link(file.get("webViewLink"))
 
         calLink = f"https://calndr.link/d/event/?service=outlook&start={toSend['date']} {toSend['start_time']}&end={toSend['date']} {toSend['end_time']}&title={toSend['title']}&timezone=America/Los_Angeles&description={toSend['desc']}&location={toSend['location']}"
-
+        toSend['calURL'] = calLink
         # Create a new ScanHistory object for this upload
         scan_history = ScanHistory(
             author=current_user,
@@ -276,50 +276,38 @@ def upload_file():
     
 @views.route('/edit_file/<int:id>', methods=['GET', 'POST'])
 def edit_post(id):
+    
+    if request.method == "POST":
 
-    ## 
-    newData = ScanHistory.query.filter_by(author=current_user, id = id).all()
+        updatedCalInfo = f"https://calndr.link/d/event/?service=outlook&start={request.form.get('date')} {request.form.get('start_time')}&end={request.form.get('date')} {request.form.get('end_time')}&title={request.form.get('title')}&timezone=America/Los_Angeles&description={request.form.get('description')}&location={request.form.get('location')}"
+        
+        updatedCal = ScanHistory.query.filter_by(author=current_user, id = id).first()
+        updatedCal.calendar_url = updatedCalInfo
+        db.session.add(updatedCal)
+        db.session.commit()
+
+    ## if method is simply GET, displays current info on flyer
+    flyerInfo={}
+
+    newData = ScanHistory.query.filter_by(author=current_user, id = id).first()
     ## new disctionary to store flyer info
-    flyerInfo = {}
+    flyerInfo['flyerPath'] = newData.flyer_url
+    flyerInfo['calURL'] = newData.calendar_url
     ## template for grabbing data from string
     template = {'title':r"title=(.*?)&",
                     'date':r"start=(.*?)\s",
                     'start_time':r"start=.*?\s(.*?)&" ,
                     'end_time':r"end=.*?\s(.*?)&",
                     'location':r"location=(.*)",
-                    'description':r"description=(.*?)&"
+                    'desc':r"description=(.*?)&"
         }
     ## grabs string data at specific points
-    for key, flyerInfo in template.items():
-        match = re.search(template, newData.calendar_url)
+    for key, value in template.items():
+        match = re.search(template[key], newData.calendar_url)
         if match:
             flyerInfo[key] = match.group(1)
 
-    ## if method is simply GET, displays current info on flyer
-    if request.method == "GET":
-        return display_file(flyerInfo)
-    
-    ## if method is post, gets new entry data from input fields and sets to 
-    ## new dictionary editData
-    elif request.method == "POST":
-        editData = {}
-        editData['title'] = request.form.get('title')
-        editData['date'] = request.form.get('date')
-        editData['start_time'] = request.form.get('start_time')
-        editData['end_time'] = request.form.get('end_time')
-        editData['location'] = request.form.get('location')
-        editData['description'] = request.form.get('description')
-        
-        ## for loop to replace flyerInfo data with new values
-        for key, value in editData.items():
-            if key in flyerInfo:
-                flyerInfo[key] = value
-        
-        updatedCal = ScanHistory(author = current_user, calendar_url = flyerInfo)
-        db.session.add(updatedCal)
-        db.session.commit()
-        ## returns display with new flyerInfo
-        return display_file(flyerInfo)
+    return display_file(flyerInfo)
 
 
 @views.route('/display_file')
