@@ -312,14 +312,19 @@ def displayHistory():
         matching_scan_histories = []
         # Convert keyword to lowercase for case-insensitive search
         keyword = request.json['data'].lower()
+        from urllib.parse import urlparse, parse_qs
         # Iterate through the scan_history_list
         for scan_history in userScanHist:
             # Convert attributes to lowercase for case-insensitive search
             calendar_name = scan_history.calendar_name.lower() if scan_history.calendar_name else ""
             flyer_name = scan_history.flyer_name.lower() if scan_history.flyer_name else ""
+            desc = scan_history.calendar_url if scan_history.calendar_url else ""
+            parsed_url = urlparse(desc)
+            query_params = parse_qs(parsed_url.query)
+            description = query_params.get("description")[0] if query_params.get("description") else ""
 
             # Check if the keyword appears in the calendar_name, flyer_name, or description
-            if keyword in calendar_name or keyword in flyer_name:
+            if keyword in calendar_name or keyword in flyer_name or keyword in description.lower():
                 # If the keyword is found, add the ScanHistory model to the matching_scan_histories list
                 matching_scan_histories.append(scan_history)
         
