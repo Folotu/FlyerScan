@@ -6,26 +6,25 @@
   href="{{ url_for('static', filename = '/css/history.css') }}"
 />
 
-<form class="search-box">
+<div class="history-container">
+  <form class="search-box">
   <input type="text" placeholder="Search Flyers..." />
   <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
   <button type="button" class="microphone-btn">
     <i class="fa fa-microphone"></i>
   </button>
 </form>
-<div class="history-container">
   {% for scan in userScanHist|sort(attribute='updated_at',reverse=True) %}
 
   <p class="card-text">Last Updated: {{ scan.updated_at }}</p>
 
 
   <!----------------------------------- We can change the href here for the attribute tag to the edit page for the unique scanned flyer. ------------------------------------------------------------------ -->
-  <a id="scanned-container" href="/">
+  <a id="scanned-container" href="edit_file/{{ scan.id}}" data-url="edit_file/{{scan.id}}">
     <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
 
-
     
-    <div class="scanned-container">
+    <div class="scanned-container" >
       <img
         id="image-thumbnail"
         width="150"
@@ -33,14 +32,16 @@
         src="{{ scan.flyer_url }}"
         alt="{{ scan.flyer_name }}"
       />
-      <p id="flyer-name">{{ scan.flyer_name }}</p>
+      <p id="flyer-name">{{ scan.calendar_name }}
+    </p>
     </div>
   </a>
 
-  {% endfor %} {% endblock %}
+  {% endfor %} 
 </div>
 
 <script
   type="text/javascript"
   src="{{ url_for('static', filename='/js/history.js') }}"
 ></script>
+{% endblock %}
