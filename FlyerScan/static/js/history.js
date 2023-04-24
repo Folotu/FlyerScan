@@ -26,14 +26,28 @@ form.addEventListener("submit", (e) => {
 
 input.addEventListener("keyup", (e) => {
   if (e.key === "Enter") {
-    e.preventDefault();
+    // e.preventDefault();
     searchFunction(input.value);
   }
 });
 
-function searchFunction(searchTerm) {
+async function searchFunction(searchTerm) {
   // your search function here
   console.log(`Searching for ${searchTerm}...`);
+
+  const response = await fetch('/history', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ data: searchTerm }),
+  });
+
+  const responseData = await response.json();
+  const searchResultsHtml = responseData.search_results_html;
+  
+  // Update the history container with the search results HTML
+  document.querySelector('.history-container').innerHTML = searchResultsHtml;
 }
 
 /* function that grabs scan id and reroutes to edit page with clicked flyer */

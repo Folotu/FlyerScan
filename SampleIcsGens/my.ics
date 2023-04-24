@@ -2,17 +2,14 @@ BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//FlyerScan Calendar//mxm.dk//
 BEGIN:VEVENT
-SUMMARY:Big Picture
-DTSTART:20230224T160000
-DTEND:20230224T173000
-DTSTAMP:20230424T002746Z
-DESCRIPTION:The event takes place on 2023-02-24 from 4:00 PM to 5:30 PM. T
- he event location is PM Conference Center Roorn 105 Vanguard Engineering S
- ociety University of California. The event is organized by Upperclass\, Pa
- nel\, PM.
-LOCATION:['PM Conference Center Roorn 105 Vanguard Engineering Society Uni
- versity of California']
-ORGANIZER:Upperclass Panel PM
+SUMMARY:None
+DTSTART:20230420T160000
+DTEND:20230420T170000
+DTSTAMP:20230424T011638Z
+DESCRIPTION:The event takes place on 2023-04-20 from 4:00 PM to 5:00 PM. T
+ he event is organized by ASSOCIATION\, FOR\, MACHINERY\, PM\, URLs.
+LOCATION:[]
+ORGANIZER:ASSOCIATION FOR MACHINERY PM URLs
 PRIORITY:5
 END:VEVENT
 END:VCALENDAR
