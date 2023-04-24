@@ -16,6 +16,7 @@
     <img 
       class="img-fluid"
       src="{{toSend['flyerPath']}}" alt="Uploaded image"
+      onload="displayConvertedTime()"
     >
     <br>
   </div>
@@ -35,7 +36,6 @@
         name="date"
         value="{{toSend['date']}}">
       <br><br>
-      <!-- Need to see how to auto insert Start and End Times-->
       <label for="start_time">Start Time:</label>
       <input type="time" 
         id="start_time" 
@@ -66,7 +66,7 @@
 
     
     <!-- place holder for checking, delete later-->
-    <h1>Extracted Information</h1>
+    <!-- <h1>Extracted Information</h1>
 
     'title': {{toSend['title']}}, <br>
     'date':{{toSend['date']}}  <br>
@@ -75,7 +75,7 @@
     'end_time':{{toSend['end_time']}}  <br>
     'location': {{toSend['location']}} <br>
     'desc': {{toSend['desc']}}  <br>
-    'org': {{toSend['org']}} <br>
+    'org': {{toSend['org']}} <br> -->
 
     <!-- <h1>Displayed file</h1> -->
 
@@ -84,4 +84,12 @@
 <!--<img src="{{ url_for('static', filename='UploadedImages/uploadedImage.png') }}" alt="Uploaded image">-->
   </div>
 </div>
+<script>
+  var start_time ="{{toSend['start_time']}}";
+  var end_time ="{{toSend['end_time']}}";
+</script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='/js/history.js') }}"
+></script>
 {% endblock %}
