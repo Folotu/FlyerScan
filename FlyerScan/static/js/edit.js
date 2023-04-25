@@ -35,3 +35,24 @@ function timeConversion(time){
   htmlStartTime.value = timeConversion(start_time);
   htmlEndTime.value = timeConversion(end_time);
   }
+
+  let recognition;
+
+  function speechToText(button, inputID) {;
+    let inputElem = document.getElementById(inputID);
+    console.log(inputElem)
+      recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.onresult = function(event) {
+        inputElem.value = event.results[0][0].transcript;
+        console.log(inputElem)
+      };
+    
+    if (button.classList.contains('active')) {
+      recognition.stop();
+      button.classList.remove('active');
+    } else {
+      recognition.start();
+      button.classList.add('active');
+    }
+  }

@@ -23,29 +23,35 @@
   </div>
   <div class="edit-container">
     <form method="post">
-      <div class="form-floating input-group mb-3">
+      <div class=" title-div form-floating input-group mb-3">
         <input type="text"
           class="form-control" 
           id="title" 
           name="title"
           value="{{toSend['title']}}">
         <label for="title">Title</label>
-        <button class="btn microphone-btn btn-outline-secondary" type="button">
+        <button class="btn microphone-btn" 
+        type="button"
+        id="title-button"
+        onclick="speechToText(document.getElementById('title-button'), 'title')">
           <i class="fa fa-microphone"></i>
         </button>
       </div>
-      <div class="form-floating input-group mb-3">
+      <div class="date-div form-floating input-group mb-3">
         <input type="date"
           class="form-control" 
           id="date" 
           name="date"
           value="{{toSend['date']}}">
         <label for="date">Date</label>
-        <button class="btn microphone-btn btn-outline-secondary" type="button">
+        <button class="btn microphone-btn" 
+          type="button"
+          id="date-button"
+          onclick="speechToText(document.getElementById('date-button'), 'date')">
           <i class="fa fa-microphone"></i>
         </button>
       </div>
-      <div class="input-group">
+      <div class="time-div input-group">
         <div class="form-floating col-md-2">
           <input type="time"
             class="form-control" 
@@ -64,29 +70,36 @@
           <label for="end_time">End</label>
         </div>
       </div>
-      <div class="form-floating input-group mb-3">
+      <div class="location-div form-floating input-group mb-3">
         <input type="text"
           class="form-control" 
           id="location" 
           name="location"
           value="{{toSend['location']}}">
         <label for="location">Location</label>
-        <button class="btn microphone-btn btn-outline-secondary" type="button">
+        <button class="btn microphone-btn" 
+          type="button"
+          id="location-button"
+          onclick="speechToText(document.getElementById('location-button'), 'location')">
           <i class="fa fa-microphone"></i>
         </button>  
       </div>
       <div class="row">
         <label for="description" class="txt-label">Description</label>
       </div>
-      <div class="input-group">
-      <textarea
+      <div class="desc-div input-group">
+        <textarea
           class="form-control"
           id="description"
           name="description"
-          rows="4">{{toSend['desc']}}</textarea>
-          <button class="btn microphone-btn-text btn-secondary" type="button">
-            <i class="fa fa-microphone"></i>
-          </button>
+          rows="4">{{toSend['desc']}}
+        </textarea>
+        <button class="btn microphone-btn-text" 
+          type="button"
+          id="desc-button"
+          onclick="speechToText(document.getElementById('desc-button'), 'description')">
+          <i class="fa fa-microphone"></i>
+        </button>
       </div>
       <div class="mb-3">
       <input class="btn btn-secondary" type="submit" value="Edit" id="edit-button">
