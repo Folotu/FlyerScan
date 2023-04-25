@@ -36,23 +36,32 @@ function timeConversion(time){
   htmlEndTime.value = timeConversion(end_time);
   }
 
-  let recognition;
+  let activeButton = null;
+  let recognition = null;
 
   function speechToText(button, inputID) {;
     let inputElem = document.getElementById(inputID);
-    console.log(inputElem)
-      recognition = new webkitSpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.onresult = function(event) {
+    //console.log(inputElem)
+
+    if (activeButton && activeButton !== button){
+        recognition.stop();
+        activeButton.classList.remove('active');
+    }
+
+    recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.onresult = function(event) {
         inputElem.value = event.results[0][0].transcript;
-        console.log(inputElem)
-      };
+        //console.log(inputElem)
+    };
     
     if (button.classList.contains('active')) {
       recognition.stop();
       button.classList.remove('active');
+      activeButton = null;
     } else {
       recognition.start();
       button.classList.add('active');
-    }
+      activeButton = button;
+    }   
   }
