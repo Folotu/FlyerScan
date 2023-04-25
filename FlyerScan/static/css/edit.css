@@ -1,6 +1,7 @@
 .full-page-container{
     overflow-y: scroll;
     max-height: 82vh;
+    overflow-x: hidden;
 }
 
 .form-control{
@@ -16,4 +17,32 @@
 #cal-button{
     margin: 10px;
     padding: 20px;
+}
+
+.txt-label{
+    margin-left: 12px;
+    opacity: .6;
+    font-size: .9em;
+    display: flex;
+    flex-direction: column;
+}
+
+.microphone-btn {
+    background-color: transparent;
+    color: #000;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    margin-left: -30px;
+}
+
+.microphone-btn-text {
+    background-color: transparent;
+    color: #000;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    margin-left: -30px;
+    max-height: 58px;
+    position: relative; top:42px;
 }
