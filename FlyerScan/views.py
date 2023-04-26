@@ -254,8 +254,8 @@ def upload_file():
         )
         db.session.add(scan_history)
         db.session.commit()
-
-        return display_file(toSend)
+        
+        return redirect(f'/edit_file/{scan_history.id}')
     
     except HttpError as error:
         return f'An error occurred: {error}'

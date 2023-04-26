@@ -74,13 +74,13 @@ function deleteFlyer(){
   const url_array = url_string.split("/");
   const flyer_id = parseInt(url_array[url_array.length - 1]);
   //console.log(flyer_id);
-  
+  const home_url = "http://127.0.0.1:5000/" 
   var xhttp = new XMLHttpRequest();
-  xhttp.open("DELETE", "http://127.0.0.1:5000/edit_file/" + flyer_id);
+  xhttp.open("DELETE", home_url + "edit_file/" + flyer_id);
   xhttp.onload = function(){
     if(xhttp.status === 200){
-      window.location.href = "http://127.0.0.1:5000/";
-      alert("successfuly Deleted")
+      window.location.href = home_url + "history";
+      //alert("successfuly Deleted")
     }
   }
   xhttp.send();
