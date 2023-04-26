@@ -1,6 +1,6 @@
 .history-container {
     overflow-y: scroll;
-    max-height: 82vh;
+    max-height: 93vh;
 }
 
 a#scanned-container {
@@ -27,10 +27,7 @@ a#scanned-container {
     margin-right: 0.25em;
     margin-bottom: 1em;
     border-radius: 10px;
-
-
 }
-
 
 img#image-thumbnail {
     max-width: 150px;
