@@ -15,7 +15,7 @@
   <div id="control-area">
     <button id="capture-image-btn" class="load" type="button"></button>
     <form method="POST" action="{{ url_for('views.process_image') }}">
-      <input type="hidden" name="image_data" id="image-data" />
+      <input type="hidden" accept="image/*" capture="environment" name="image_data" id="image-data" />
       <button type="submit" style="display: none">Submit</button>
     </form>
   </div>
@@ -25,23 +25,7 @@
   <div class="loader"></div>
 </div>
 
-<div id="container">
-  <div id="camera-container">
-    <video id="camera-stream"></video>
-    <div id="camera-stream-area"></div>
-  </div>
-  <div id="control-area">
-    <button id="capture-image-btn" class="load" type="button"></button>
-    <form method="POST" action="{{ url_for('views.process_image') }}">
-      <input type="hidden" name="image_data" id="image-data" />
-      <button type="submit" style="display: none">Submit</button>
-    </form>
-  </div>
-</div>
-<!--display spinner-->
-<div id="overlay" style="display: none;">
-  <div class="loader"></div>
-</div>
+
 
 <script
   type="text/javascript"
