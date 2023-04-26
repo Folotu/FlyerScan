@@ -43,7 +43,7 @@ function timeConversion(time){
     let inputElem = document.getElementById(inputID);
     //console.log(inputElem)
 
-    if (activeButton && activeButton !== button){
+    if (activeButton && (activeButton !== button)){
         recognition.stop();
         activeButton.classList.remove('active');
     }
@@ -51,7 +51,10 @@ function timeConversion(time){
     recognition = new webkitSpeechRecognition();
     recognition.lang = 'en-US';
     recognition.onresult = function(event) {
-        inputElem.value = event.results[0][0].transcript;
+        let transcript = event.results[0][0].transcript;
+        transcript = transcript.replace(/dash/gi, "-");
+        console.log(transcript);
+        inputElem.value = transcript;
         //console.log(inputElem)
     };
     
@@ -65,3 +68,20 @@ function timeConversion(time){
       activeButton = button;
     }   
   }
+
+function deleteFlyer(){
+  const url_string = window.location.href;
+  const url_array = url_string.split("/");
+  const flyer_id = parseInt(url_array[url_array.length - 1]);
+  //console.log(flyer_id);
+  
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("DELETE", "http://127.0.0.1:5000/edit_file/" + flyer_id);
+  xhttp.onload = function(){
+    if(xhttp.status === 200){
+      window.location.href = "http://127.0.0.1:5000/";
+      alert("successfuly Deleted")
+    }
+  }
+  xhttp.send();
+}

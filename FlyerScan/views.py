@@ -260,7 +260,7 @@ def upload_file():
     except HttpError as error:
         return f'An error occurred: {error}'
     
-@views.route('/edit_file/<int:id>', methods=['GET', 'POST'])
+@views.route('/edit_file/<int:id>', methods=['GET', 'POST', 'DELETE'])
 def edit_post(id):
     
     if request.method == "POST":
@@ -272,7 +272,13 @@ def edit_post(id):
         updatedCal.calendar_name = request.form.get('title')
         db.session.add(updatedCal)
         db.session.commit()
-
+    
+    elif request.method == "DELETE":
+        flyer = ScanHistory.query.filter_by(author = current_user, id = id).first()
+        db.session.delete(flyer)
+        db.session.commit()
+        return "Recieved Delete Request for flyer ID:".format(id)
+    
     ## if method is simply GET, displays current info on flyer
     flyerInfo={}
 
@@ -295,7 +301,7 @@ def edit_post(id):
             flyerInfo[key] = match.group(1)
 
     return display_file(flyerInfo)
-
+    
 
 @views.route('/display_file')
 def display_file(toSend):
