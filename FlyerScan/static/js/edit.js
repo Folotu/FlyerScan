@@ -26,48 +26,65 @@ function timeConversion(time){
     convertedTime = hours + ":" + minutes;
     //console.log(convertedTime);
     return convertedTime;
-  }
+}
   // onload function, grabs start_time/end_time from html page
-  function displayConvertedTime(){
+function displayConvertedTime(){
   htmlStartTime = document.getElementById("start_time");
   htmlEndTime = document.getElementById("end_time");
   
   htmlStartTime.value = timeConversion(start_time);
   htmlEndTime.value = timeConversion(end_time);
+}
+
+window.onload = function() {
+  if (checkFields()) {
+    document.getElementById('cal-button').style.display = 'block';
   }
+}
 
   let activeButton = null;
   let recognition = null;
 
-  function speechToText(button, inputID) {;
-    let inputElem = document.getElementById(inputID);
+function speechToText(button, inputID, inputType) {;
+  let inputElem = document.getElementById(inputID);
     //console.log(inputElem)
 
-    if (activeButton && (activeButton !== button)){
-        recognition.stop();
-        activeButton.classList.remove('active');
-    }
-
-    recognition = new webkitSpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.onresult = function(event) {
-        let transcript = event.results[0][0].transcript;
-        transcript = transcript.replace(/dash/gi, "-");
-        console.log(transcript);
-        inputElem.value = transcript;
-        //console.log(inputElem)
-    };
-    
-    if (button.classList.contains('active')) {
-      recognition.stop();
-      button.classList.remove('active');
-      activeButton = null;
-    } else {
-      recognition.start();
-      button.classList.add('active');
-      activeButton = button;
-    }   
+  if (activeButton && (activeButton !== button)){
+    recognition.stop();
+    activeButton.classList.remove('active');
   }
+
+  recognition = new webkitSpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.onresult = function(event) {
+    var transcript = event.results[0][0].transcript;
+    //console.log(transcript);
+    if (inputType === 'date'){
+      var transcript = event.results[0][0].transcript;
+      transcript = transcript.replace(/\s/g, '')
+      transcript = transcript.replace(/dash/gi, "-");
+      let date = new Date(transcript);
+      let year = date.getFullYear();
+      let month = ('0' + (date.getMonth() + 1)).slice(-2);
+      let day = ('0' + date.getDate()).slice(-2);
+      //console.log('Year:', year, 'Month:', month, 'Day:', day);
+      transcript = year +"-" + month + "-" + day;
+      //console.log(transcript);
+    }
+    inputElem.value = transcript;
+    //console.log(inputElem)
+  };
+  
+  if (button.classList.contains('active')) {
+    recognition.stop();
+    button.classList.remove('active');
+    activeButton = null;
+  } else {
+    recognition.start();
+    button.classList.add('active');
+    activeButton = button;
+  }   
+}
 
 function deleteFlyer(){
   const url_string = window.location.href;
@@ -85,3 +102,39 @@ function deleteFlyer(){
   }
   xhttp.send();
 }
+
+function checkFields() {
+  let title = document.getElementById('title');
+  let date = document.getElementById('date');
+  let start_time = document.getElementById('start_time');
+  let location = document.getElementById('location');
+  let description = document.getElementById('description');
+  
+  let button = document.getElementById('cal-button');
+
+  if (title && title.value === ''){
+    button.style.display = 'none';
+    console.log(title.value)
+    return false;
+  } 
+  if (date && date.value === ''){
+    button.style.display = 'none';
+    return false;
+  }
+  if (start_time && start_time.value === ''){
+    button.style.display = 'none';
+    return false;
+  }
+  if (location && location.value === ''){
+    button.style.display = 'none';
+    return false;
+  }
+  if(description && description.value === ''){
+    button.style.display = 'none';
+    return false;
+  }
+
+  button.style.display = 'block';
+  return true;
+}
+
