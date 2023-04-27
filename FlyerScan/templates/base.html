@@ -87,6 +87,21 @@
 
   <head>
     {% block header %} {% endblock %}
+    <script>
+      const cameraBtn = document.getElementById('camera-btn');
+      
+      cameraBtn.addEventListener('click', async () => {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          const video = document.createElement('video');
+          video.srcObject = stream;
+          video.play();
+          document.body.appendChild(video);
+        } catch (error) {
+          console.error('Failed to access the camera:', error);
+        }
+      });
+      </script>
   </head>
 
   <body>
@@ -100,10 +115,21 @@
       <i class="material-icons nav__icon">home</i>
       <span class="nav__text">Home</span>
     </a>
-    <a href="/camera" class="nav__link">
+
+     <label for="file-upload" class="nav__link2"    
+    
+    onchange="document.getElementById('upload-button-label').style.display='none';
+    document.getElementById('uploadImgID').style.display='none';
+    document.getElementById('overlay1').style.display='flex';
+    document.getElementById('file-upload-form').submit();"> 
+
+    <!-- <a href="/camera" class="nav__link" > -->
       <i class="material-icons nav__icon">photo_camera</i>
       <span class="nav__text">Scan</span>
-    </a>
+
+    <!-- </a> -->
+  </label>
+
     <a href="/history" class="nav__link">
       <i class="material-icons nav__icon">history</i>
       <span class="nav__text">History</span>
