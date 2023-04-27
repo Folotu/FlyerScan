@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% block title %} {% endblock %} {% block header%} {%
-endblock %} {% block body %}
+{% extends "base.html" %} {% block title %} {% endblock %} {% block header%} {%endblock %} {% block body %}
 
 <link
   rel="stylesheet"
@@ -113,9 +112,7 @@ endblock %} {% block body %}
               id="description"
               name="description"
               rows="4"
-              onchange="checkFields()"
-            >
-{{toSend['desc']}}
+              onchange="checkFields()">{{toSend['desc']}}
             </textarea>
             <button
               class="btn microphone-btn-text"
@@ -139,8 +136,7 @@ endblock %} {% block body %}
           <button
             class="btn btn-primary"
             id="cal-button"
-            onclick="window.location.href='{{toSend['calURL']}}'"
-          >
+            onclick="window.location.href='{{toSend['calURL']}}'">
             Click to add to Personal Calendar
           </button>
         </div>

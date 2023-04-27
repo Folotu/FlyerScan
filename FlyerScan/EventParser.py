@@ -336,17 +336,17 @@ def calendarGen(fields):
 def startEventParsing(imageURLorPath):
     try:
         fields = find_fields(extract_text(imageURLorPath)) 
-        title, date, time, startime, endtime, desc, location = calendarGen(fields=fields)
+        #title, date, time, startime, endtime, desc, location = calendarGen(fields=fields)
 
-        if not startime or date:
+        if not fields['start_time'] or fields['date']:
             from .BERTparser import BertGens
-            f = open("outputWithApi.txt", "r")
+            f = open("outputWithApi.txt", "r", encoding="utf8")
             print("Used BERT1")
             bertFields = BertGens(f.read())
-            if bertFields['date'] is None and date is not None:
-                bertFields['date'] = date
-            if bertFields['start_time'] is None and startime is not None:
-                bertFields['start_time'] = startime
+            if bertFields['date'] is None and fields['date'] is not None:
+                bertFields['date'] = fields['date']
+            if bertFields['start_time'] is None and fields['start_time'] is not None:
+                bertFields['start_time'] = fields['start_time']
             return bertFields
         
         return fields

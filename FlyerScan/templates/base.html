@@ -86,27 +86,29 @@
   {% endif %} {% endfor %} {% endif %} {% endwith %}
 
   <head>
-    {% block header %} {% endblock %}
-    <script>
-      const cameraBtn = document.getElementById('camera-btn');
-      
-      cameraBtn.addEventListener('click', async () => {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          const video = document.createElement('video');
-          video.srcObject = stream;
-          video.play();
-          document.body.appendChild(video);
-        } catch (error) {
-          console.error('Failed to access the camera:', error);
-        }
-      });
-      </script>
+    {% block header %} 
+      <script>
+        const cameraBtn = document.getElementById('camera-btn');
+        console.log(cameraBtn);
+        cameraBtn.addEventListener('click', async () => {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            video.play();
+            document.body.appendChild(video);
+          } catch (error) {
+            console.error('Failed to access the camera:', error);
+          }
+        });
+        </script>
+    {% endblock %}
   </head>
 
   <body>
     {% block body %}{% endblock %}
   </body>
+
 
   <nav class="nav">
     {% block nav%}
@@ -115,20 +117,25 @@
       <i class="material-icons nav__icon">home</i>
       <span class="nav__text">Home</span>
     </a>
-
-     <label for="file-upload" class="nav__link2"    
-    
-    onchange="document.getElementById('upload-button-label').style.display='none';
-    document.getElementById('uploadImgID').style.display='none';
-    document.getElementById('overlay1').style.display='flex';
-    document.getElementById('file-upload-form').submit();"> 
-
-    <!-- <a href="/camera" class="nav__link" > -->
-      <i class="material-icons nav__icon">photo_camera</i>
-      <span class="nav__text">Scan</span>
-
-    <!-- </a> -->
-  </label>
+   <!--<a href="/camera" class="nav__link" > -->  
+      
+        <label for="file-upload2" class="nav__link2">
+        <form
+          id="file-upload-form2"
+          method="POST"
+          enctype="multipart/form-data"
+          action="{{ url_for('views.upload_file') }}"
+          style="display: none">
+        <input 
+          type="file" 
+          name="file"
+          id="file-upload2" 
+          style="display:none"
+          onchange="document.getElementById('file-upload-form2').submit();">
+        </form>
+        <i class="material-icons nav__icon">photo_camera</i>
+        <span class="nav__text">Scan</span>
+      </label>
 
     <a href="/history" class="nav__link">
       <i class="material-icons nav__icon">history</i>
