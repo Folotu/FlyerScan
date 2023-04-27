@@ -29,13 +29,14 @@ endblock %} {% block body %}
               id="title"
               name="title"
               value="{{toSend['title']}}"
+              onchange="checkFields()"
             />
             <label for="title">Title</label>
             <button
               class="btn microphone-btn"
               type="button"
               id="title-button"
-              onclick="speechToText(document.getElementById('title-button'), 'title')"
+              onclick="speechToText(document.getElementById('title-button'), 'title', 'text')"
             >
               <i class="fa fa-microphone"></i>
             </button>
@@ -47,13 +48,14 @@ endblock %} {% block body %}
               id="date"
               name="date"
               value="{{toSend['date']}}"
+              onchange="checkFields()"
             />
             <label for="date">Date</label>
             <button
               class="btn microphone-btn"
               type="button"
               id="date-button"
-              onclick="speechToText(document.getElementById('date-button'), 'date')"
+              onclick="speechToText(document.getElementById('date-button'), 'date', 'date')"
             >
               <i class="fa fa-microphone"></i>
             </button>
@@ -66,6 +68,7 @@ endblock %} {% block body %}
                 id="start_time"
                 name="start_time"
                 value=""
+                onchange="checkFields()"
               />
               <label for="start_time">Start</label>
             </div>
@@ -77,6 +80,7 @@ endblock %} {% block body %}
                 id="end_time"
                 name="end_time"
                 value=""
+                onchange="checkFields()"
               />
               <label for="end_time">End</label>
             </div>
@@ -88,13 +92,14 @@ endblock %} {% block body %}
               id="location"
               name="location"
               value="{{toSend['location']}}"
+              onchange="checkFields()"
             />
             <label for="location">Location</label>
             <button
               class="btn microphone-btn"
               type="button"
               id="location-button"
-              onclick="speechToText(document.getElementById('location-button'), 'location')"
+              onclick="speechToText(document.getElementById('location-button'), 'location', 'text')"
             >
               <i class="fa fa-microphone"></i>
             </button>
@@ -108,6 +113,7 @@ endblock %} {% block body %}
               id="description"
               name="description"
               rows="4"
+              onchange="checkFields()"
             >
 {{toSend['desc']}}
             </textarea>
@@ -115,7 +121,7 @@ endblock %} {% block body %}
               class="btn microphone-btn-text"
               type="button"
               id="desc-button"
-              onclick="speechToText(document.getElementById('desc-button'), 'description')"
+              onclick="speechToText(document.getElementById('desc-button'), 'description', 'textarea')"
             >
               <i class="fa fa-microphone"></i>
             </button>
