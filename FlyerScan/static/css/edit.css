@@ -1,12 +1,93 @@
-.full-page-container{
+.full-page-container {
     overflow-y: scroll;
-    max-height: 82vh;
+    max-height: 93vh;
+    overflow-x: hidden;
 }
 
-.flyer-container{
 
+
+
+@media (min-width: 576px) {
+
+    img.img-fluid {
+        margin-left: 1em;
+        margin-right: 1em;
+        width: 55vh;
+    }
+
+    .col-sm-6#img {
+        margin-top: 5%;
+        width: 45%;
+    }
+
+    .col-sm-6#edit {
+        margin-top: 5%;
+        width: 45%;
+    }
 }
 
-.edit-container{
 
+.form-control {
+    border: 0;
+}
+
+#edit-button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+#cal-button {
+    margin: 10px;
+    padding: 10px;
+}
+
+.txt-label {
+    margin-left: 12px;
+    opacity: .6;
+    font-size: .9em;
+    display: flex;
+    flex-direction: column;
+}
+
+.microphone-btn {
+    background-color: transparent;
+    color: #000;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    margin-left: -30px;
+}
+
+.microphone-btn.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.microphone-btn-text {
+    background-color: transparent;
+    color: #000;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    margin-left: -30px;
+    max-height: 58px;
+    position: relative;
+    top: 42px;
+}
+
+.microphone-btn-text.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+button#del-button {
+    color: red;
+    width: 100%;
+}
+
+button#cal-button {
+    width: 100%;
+    margin: 0;
+    padding: 15px;
 }

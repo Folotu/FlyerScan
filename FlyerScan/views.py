@@ -254,13 +254,13 @@ def upload_file():
         )
         db.session.add(scan_history)
         db.session.commit()
-
-        return display_file(toSend)
+        
+        return redirect(f'/edit_file/{scan_history.id}')
     
     except HttpError as error:
         return f'An error occurred: {error}'
     
-@views.route('/edit_file/<int:id>', methods=['GET', 'POST'])
+@views.route('/edit_file/<int:id>', methods=['GET', 'POST', 'DELETE'])
 def edit_post(id):
     
     if request.method == "POST":
@@ -272,7 +272,13 @@ def edit_post(id):
         updatedCal.calendar_name = request.form.get('title')
         db.session.add(updatedCal)
         db.session.commit()
-
+    
+    elif request.method == "DELETE":
+        flyer = ScanHistory.query.filter_by(author = current_user, id = id).first()
+        db.session.delete(flyer)
+        db.session.commit()
+        return "Recieved Delete Request for flyer ID:".format(id)
+    
     ## if method is simply GET, displays current info on flyer
     flyerInfo={}
 
@@ -295,7 +301,7 @@ def edit_post(id):
             flyerInfo[key] = match.group(1)
 
     return display_file(flyerInfo)
-
+    
 
 @views.route('/display_file')
 def display_file(toSend):
@@ -312,14 +318,19 @@ def displayHistory():
         matching_scan_histories = []
         # Convert keyword to lowercase for case-insensitive search
         keyword = request.json['data'].lower()
+        from urllib.parse import urlparse, parse_qs
         # Iterate through the scan_history_list
         for scan_history in userScanHist:
             # Convert attributes to lowercase for case-insensitive search
             calendar_name = scan_history.calendar_name.lower() if scan_history.calendar_name else ""
             flyer_name = scan_history.flyer_name.lower() if scan_history.flyer_name else ""
+            desc = scan_history.calendar_url if scan_history.calendar_url else ""
+            parsed_url = urlparse(desc)
+            query_params = parse_qs(parsed_url.query)
+            description = query_params.get("description")[0] if query_params.get("description") else ""
 
             # Check if the keyword appears in the calendar_name, flyer_name, or description
-            if keyword in calendar_name or keyword in flyer_name:
+            if keyword in calendar_name or keyword in flyer_name or keyword in description.lower():
                 # If the keyword is found, add the ScanHistory model to the matching_scan_histories list
                 matching_scan_histories.append(scan_history)
         
