@@ -91,12 +91,12 @@ function deleteFlyer(){
   const url_array = url_string.split("/");
   const flyer_id = parseInt(url_array[url_array.length - 1]);
   //console.log(flyer_id);
-  const home_url = "http://127.0.0.1:5000/" 
+  const home_url = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port;
   var xhttp = new XMLHttpRequest();
-  xhttp.open("DELETE", home_url + "edit_file/" + flyer_id);
+  xhttp.open("DELETE", home_url + "/edit_file/" + flyer_id);
   xhttp.onload = function(){
     if(xhttp.status === 200){
-      window.location.href = home_url + "history";
+      window.location.href = home_url + "/history";
       //alert("successfuly Deleted")
     }
   }

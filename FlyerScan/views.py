@@ -11,6 +11,7 @@ from flask_wtf.file import FileField
 import re
 import os
 import io
+from urllib.parse import urlparse, parse_qs, quote, urlunparse
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -40,7 +41,22 @@ def index():
 def video_viewer():
 
     return render_template('camera.html')
-     
+
+def encode_url(url):
+    parsed_url = urlparse(url)
+    query_string = parsed_url.query
+    encoded_query_string = quote(query_string, safe='&=')
+    encoded_url = urlunparse((
+        parsed_url.scheme,
+        parsed_url.netloc,
+        parsed_url.path,
+        parsed_url.params,
+        encoded_query_string,
+        parsed_url.fragment
+    ))
+    return encoded_url
+
+
 @views.route('/process_image', methods=['POST'])
 def process_image():
 
@@ -127,7 +143,7 @@ def process_image():
         toSend['flyerPath'] = get_file_id_from_link(file.get("webViewLink"))
 
         calLink = f"https://calndr.link/d/event/?service=outlook&start={toSend['date']} {toSend['start_time']}&end={toSend['date']} {toSend['end_time']}&title={toSend['title']}&timezone=America/Los_Angeles&description={toSend['desc']}&location={toSend['location']}"
-        toSend['calURL'] = calLink
+        toSend['calURL'] = encode_url(calLink)
         # Create a new ScanHistory object for this upload
         scan_history = ScanHistory(
             author=current_user,
@@ -243,7 +259,7 @@ def upload_file():
         toSend['flyerPath'] = get_file_id_from_link(file.get("webViewLink"))
 
         calLink = f"https://calndr.link/d/event/?service=outlook&start={toSend['date']} {toSend['start_time']}&end={toSend['date']} {toSend['end_time']}&title={toSend['title']}&timezone=America/Los_Angeles&description={toSend['desc']}&location={toSend['location']}"
-        toSend['calURL'] = calLink
+        toSend['calURL'] = encode_url(calLink)
         # Create a new ScanHistory object for this upload
         scan_history = ScanHistory(
             author=current_user,
@@ -285,21 +301,20 @@ def edit_post(id):
     newData = ScanHistory.query.filter_by(author=current_user, id = id).first()
     ## new disctionary to store flyer info
     flyerInfo['flyerPath'] = newData.flyer_url
-    flyerInfo['calURL'] = newData.calendar_url
+    flyerInfo['calURL'] = encode_url(newData.calendar_url)
     ## template for grabbing data from string
     template = {'title':r"title=(.*?)&",
                     'date':r"start=(.*?)\s",
                     'start_time':r"start=.*?\s(.*?)&" ,
                     'end_time':r"end=.*?\s(.*?)&",
                     'location':r"location=(.*)",
-                    'desc':r"description=(.*?)&"
+                    'desc':r"description=\s*(.*?)&",
         }
     ## grabs string data at specific points
     for key, value in template.items():
         match = re.search(template[key], newData.calendar_url)
         if match:
             flyerInfo[key] = match.group(1)
-
     return display_file(flyerInfo)
     
 
@@ -318,7 +333,7 @@ def displayHistory():
         matching_scan_histories = []
         # Convert keyword to lowercase for case-insensitive search
         keyword = request.json['data'].lower()
-        from urllib.parse import urlparse, parse_qs
+        
         # Iterate through the scan_history_list
         for scan_history in userScanHist:
             # Convert attributes to lowercase for case-insensitive search

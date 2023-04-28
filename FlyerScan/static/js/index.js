@@ -15,7 +15,8 @@ async function registerServiceWorker() {
   }
 
 // Function to highlight current tab on navbar
-const links = document.querySelectorAll('.nav__link');
+const links = document.querySelectorAll('.nav__link', '.nav__link2');
+
 let lastActiveLink = null;
 
 if (links.length) {
@@ -23,13 +24,13 @@ if (links.length) {
     link.addEventListener('click', (e) => {
       e.preventDefault();
       links.forEach((link) => {
-        link.classList.remove('nav__link--active');
+        link.classList.remove('nav__link--active', 'nav__link2--active');
       });
-      link.classList.add('nav__link--active');
+      link.classList.add('nav__link--active', 'nav__link2--active');
 
       // Remove active class from last active link
       if (lastActiveLink) {
-        lastActiveLink.classList.remove('nav__link--active');
+        lastActiveLink.classList.remove('nav__link--active', 'nav__link2--active');
       }
       lastActiveLink = link;
 
@@ -51,7 +52,7 @@ if (links.length) {
     const path = window.location.pathname;
     const linkPath = link.pathname;
     if (path.startsWith(linkPath) || (path == '/' && linkPath == '/home')) {
-      link.classList.add('nav__link--active');
+      link.classList.add('nav__link--active', 'nav__link2--active');
       lastActiveLink = link;
     }
   });
