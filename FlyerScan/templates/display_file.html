@@ -1,38 +1,160 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %} {% block title %} {% endblock %} {% block header%} {%endblock %} {% block body %}
 
-<head>
-    <title>Display flyer</title>
-</head>
-<body>
-    <h1>Displayed flyer</h1>
-
-    <img src="{{toSend['flyerPath']}}" alt="Uploaded image">
-    <br></br>
-
-    <h1>Extracted Information</h1>
-
-    'title': {{toSend['title']}}, <br></br>
-    'date':{{toSend['date']}}  <br></br>
-    'time': {{toSend['time']}}  <br></br>
-    'start_time':  {{toSend['start_time']}}  <br></br>
-    'end_time':{{toSend['end_time']}}  <br></br>
-    'location': {{toSend['location']}} <br></br>
-    'desc': {{toSend['desc']}}  <br></br>
-    'org': {{toSend['org']}} <br></br>
-
-</body>
-
-
-  <head>
-    <title>Display file</title>
-  </head>
-  <body>
-    <h1>Displayed file</h1>
-
-    <img src="{{flyerPath}}" alt="Uploaded image" />
-  </body>
-
-</html>
-
-<!--<img src="{{ url_for('static', filename='UploadedImages/uploadedImage.png') }}" alt="Uploaded image">-->
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename = '/css/edit.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename = '/css/history.css') }}"
+/>
+<div class="full-page-container">
+  <div class="row">
+    <div class="col-sm-6" id="img">
+      <img
+        class="img-fluid"
+        src="{{toSend['flyerPath']}}"
+        alt="Uploaded image"
+        onload="displayConvertedTime()"
+      />
+    </div>
+    <div class="col-sm-6" id="edit">
+      <div class="edit-container">
+        <form method="post">
+          <div class="title-div form-floating input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              name="title"
+              value="{{toSend['title']}}"
+              onchange="checkFields()"
+            />
+            <label for="title">Title</label>
+            <button
+              class="btn microphone-btn"
+              type="button"
+              id="title-button"
+              onclick="speechToText(document.getElementById('title-button'), 'title', 'text')"
+            >
+              <i class="fa fa-microphone"></i>
+            </button>
+          </div>
+          <div class="date-div form-floating input-group mb-3">
+            <input
+              type="date"
+              class="form-control"
+              id="date"
+              name="date"
+              value="{{toSend['date']}}"
+              onchange="checkFields()"
+            />
+            <label for="date">Date</label>
+            <button
+              class="btn microphone-btn"
+              type="button"
+              id="date-button"
+              onclick="speechToText(document.getElementById('date-button'), 'date', 'date')"
+            >
+              <i class="fa fa-microphone"></i>
+            </button>
+          </div>
+          <div class="time-div input-group">
+            <div class="form-floating col-md-2">
+              <input
+                type="time"
+                class="form-control"
+                id="start_time"
+                name="start_time"
+                value=""
+                onchange="checkFields()"
+              />
+              <label for="start_time">Start</label>
+            </div>
+            <span class="input-group-btn" style="width: 0px"></span>
+            <div class="form-floating col-md-2">
+              <input
+                type="time"
+                class="form-control"
+                id="end_time"
+                name="end_time"
+                value=""
+                onchange="checkFields()"
+              />
+              <label for="end_time">End</label>
+            </div>
+          </div>
+          <div class="location-div form-floating input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="location"
+              name="location"
+              value="{{toSend['location']}}"
+              onchange="checkFields()"
+            />
+            <label for="location">Location</label>
+            <button
+              class="btn microphone-btn"
+              type="button"
+              id="location-button"
+              onclick="speechToText(document.getElementById('location-button'), 'location', 'text')"
+            >
+              <i class="fa fa-microphone"></i>
+            </button>
+          </div>
+          <div class="row">
+            <label for="description" class="txt-label">Description</label>
+          </div>
+          <div class="desc-div input-group">
+            <textarea
+              class="form-control"
+              id="description"
+              name="description"
+              rows="4"
+              onchange="checkFields()">{{toSend['desc']}}
+            </textarea>
+            <button
+              class="btn microphone-btn-text"
+              type="button"
+              id="desc-button"
+              onclick="speechToText(document.getElementById('desc-button'), 'description', 'textarea')"
+            >
+              <i class="fa fa-microphone"></i>
+            </button>
+          </div>
+          <div class="mb-3">
+            <input
+              class="btn btn-secondary"
+              type="submit"
+              value="Save Edit"
+              id="edit-button"
+            />
+          </div>
+        </form>
+        <div class="mb-3">
+          <button
+            class="btn btn-primary"
+            id="cal-button"
+            onclick="window.location.href='{{toSend['calURL']}}'">
+            Click to add to Personal Calendar
+          </button>
+        </div>
+        <div class="mb-3">
+          <button type="button" class="btn btn-light" id="del-button" onclick="deleteFlyer()">
+            Delete Flyer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  var start_time = "{{toSend['start_time']}}";
+  var end_time = "{{toSend['end_time']}}";
+</script>
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='/js/edit.js') }}"
+></script>
+{% endblock %}

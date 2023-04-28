@@ -117,14 +117,19 @@ button {
 }
 
 /* loading spinner stuff*/
-#overlay {
-    position: fixed;
+  .upload-content {
+    position: relative;
+    display: inline-block;
+  }
+  
+  #overlay1 {
+    position: absolute;
     z-index: 9999;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(128, 128, 128, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -136,11 +141,31 @@ button {
     border-radius: 50%;
     width: 120px;
     height: 120px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     animation: spin 2s linear infinite;
   }
   
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+#page-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.5);
+    z-index: 9998;
   }
+  
+
 

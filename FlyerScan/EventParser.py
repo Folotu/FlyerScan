@@ -107,7 +107,7 @@ def sizeIsOK(filepath):
     #     return True
     
     response = requests.get(filepath)
-
+    
     if response.status_code == 200:
         # Get the size of the file in bytes from the Content-Length header
         file_size = int(response.headers.get('Content-Length', 0))
@@ -336,17 +336,21 @@ def calendarGen(fields):
 def startEventParsing(imageURLorPath):
     try:
         fields = find_fields(extract_text(imageURLorPath)) 
-        title, date, time, startime, endtime, desc, location = calendarGen(fields=fields)
+        #title, date, time, startime, endtime, desc, location = calendarGen(fields=fields)
 
-        if not startime or date:
+        if not fields['start_time'] or fields['date']:
             from .BERTparser import BertGens
-            f = open("outputWithApi.txt", "r")
+            f = open("outputWithApi.txt", "r", encoding="utf8")
             print("Used BERT1")
             bertFields = BertGens(f.read())
-            if bertFields['date'] is None and date is not None:
-                bertFields['date'] = date
-            if bertFields['start_time'] is None and startime is not None:
-                bertFields['start_time'] = startime
+            if bertFields['date'] is None and fields['date'] is not None:
+                bertFields['date'] = fields['date']
+            if bertFields['start_time'] is None and fields['start_time'] is not None:
+                bertFields['start_time'] = fields['start_time']
+            if len(str(bertFields['title'])) < len(str(fields['title'])):
+                bertFields['title'] = fields['title']
+            if len(str(bertFields['location'])) < len(str(fields['location'])):
+                bertFields['location'] = fields['location']
             return bertFields
         
         return fields

@@ -1,22 +1,47 @@
 {% extends "base.html" %} {% block title %}{% endblock %} {% block header
 %}{%endblock %} {% block body %}
 
-<h1>Scan History</h1>
-<div class="card-stack">
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename = '/css/history.css') }}"
+/>
+
+<div class="history-container">
+  <form class="search-box">
+  <input type="text" placeholder="Search Flyers..." />
+  <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+  <button type="button" class="microphone-btn">
+    <i class="fa fa-microphone"></i>
+  </button>
+</form>
   {% for scan in userScanHist|sort(attribute='updated_at',reverse=True) %}
-  <div class="card">
-    <img
-      src="{{ scan.flyer_url }}"
-      alt="{{ scan.flyer_name }}"
-      class="card-img-top"
-      height="600"
-      width="400"
-    />
-    <div class="card-body">
-      <h5 class="card-title">{{ scan.flyer_name }}</h5>
-      <p class="card-text">Last Updated: {{ scan.updated_at }}</p>
+
+  <p class="card-text">Last Updated: {{ scan.updated_at }}</p>
+
+
+  <!----------------------------------- We can change the href here for the attribute tag to the edit page for the unique scanned flyer. ------------------------------------------------------------------ -->
+  <a id="scanned-container" href="edit_file/{{ scan.id}}" data-url="edit_file/{{scan.id}}">
+    <!-- ---------------------------------------------------------------------------------------------------------------------------------- -->
+
+    
+    <div class="scanned-container" >
+      <img
+        id="image-thumbnail"
+        width="150"
+        height="150"
+        src="{{ scan.flyer_url }}"
+        alt="{{ scan.flyer_name }}"
+      />
+      <p id="flyer-name">{{ scan.calendar_name }}
+    </p>
     </div>
-  </div>
-  {% endfor %}
+  </a>
+
+  {% endfor %} 
 </div>
+
+<script
+  type="text/javascript"
+  src="{{ url_for('static', filename='/js/history.js') }}"
+></script>
 {% endblock %}

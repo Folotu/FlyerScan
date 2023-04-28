@@ -1,10 +1,11 @@
-{% extends 'base.html' %} {% block title %}{% endblock %} {% block header
-%}{%endblock %} {% block body %}
+{% extends 'base.html' %} 
+{% block title %}{% endblock %} 
+{% block header%}{%endblock %} 
 
-<link rel="stylesheet" href="../static/css/camera.css" />
+{% block body %}
+  <div id="page-overlay" style="display: none;"></div>
 
-<html>
-  <body>
+  <link rel="stylesheet" href="../static/css/camera.css" />
 
     <div id="welcome-container">
       <h1 id="welcome-user">
@@ -14,20 +15,20 @@
     </div>
     
     <div id="upload-container">
-      <div id="overlay1" style="display: none" >
-        <div class="loader"></div>
-      </div>
-
       <div class="image-upload">
-        <label for="file-upload">
-          <img id="uploadImgID"
-            src="{{url_for('static', filename='images/Upload.png')}}"
-            width="85"
-            style="pointer-events: none"
-          />
-        </label>
+        <div class="upload-content">
+          <label for="file-upload">
+            <img id="uploadImgID"
+              src="{{url_for('static', filename='images/Upload.png')}}"
+              width="85"
+              style="pointer-events: none"
+            />
+          </label>
+          <div id="overlay1" style="display: none">
+            <div class="loader"></div>
+          </div>
+        </div>
         <p id="upload-button-label">Upload Flyer</p>
-
         <form
           id="file-upload-form"
           method="POST"
@@ -43,18 +44,10 @@
             onchange="document.getElementById('upload-button-label').style.display='none';
                       document.getElementById('uploadImgID').style.display='none';
                       document.getElementById('overlay1').style.display='flex';
+                      document.getElementById('page-overlay').style.display='block';
                       document.getElementById('file-upload-form').submit();"
           />
         </form>
       </div>
     </div>   
-
-            onchange="document.getElementById('file-upload-form').submit();"
-          />
-        </form>
-      </div>
-    </div>
-
-  </body>
-</html>
 {%endblock %}

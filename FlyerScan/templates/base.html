@@ -55,6 +55,8 @@
     href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css"
   />
 
+  <script src="https://kit.fontawesome.com/b909904038.js" crossorigin="anonymous"></script>
+
   <!--  flash alerts  -->
 
   {% with messages = get_flashed_messages(with_categories=true) %} {% if
@@ -84,12 +86,32 @@
   {% endif %} {% endfor %} {% endif %} {% endwith %}
 
   <head>
-    {% block header %} {% endblock %}
+    {% block header %} 
+      <script>
+        const cameraBtn = document.getElementById('camera-btn');
+        console.log(cameraBtn);
+        cameraBtn.addEventListener('click', async () => {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const video = document.createElement('video');
+            video.srcObject = stream;
+            video.play();
+            document.body.appendChild(video);
+          } catch (error) {
+            console.error('Failed to access the camera:', error);
+          }
+        });
+        </script>
+    {% endblock %}
   </head>
 
   <body>
+    <div id="overlay3" class="hidden">
+      <div class="loader3"></div>
+  </div>
     {% block body %}{% endblock %}
   </body>
+
 
   <nav class="nav">
     {% block nav%}
@@ -98,10 +120,27 @@
       <i class="material-icons nav__icon">home</i>
       <span class="nav__text">Home</span>
     </a>
-    <a href="/camera" class="nav__link">
-      <i class="material-icons nav__icon">photo_camera</i>
-      <span class="nav__text">Scan</span>
-    </a>
+   <!--<a href="/camera" class="nav__link" > -->  
+      
+        <label for="file-upload2" class="nav__link2">
+        <form
+          id="file-upload-form2"
+          method="POST"
+          enctype="multipart/form-data"
+          action="{{ url_for('views.upload_file') }}"
+          style="display: none">
+        <input 
+          type="file" 
+          name="file"
+          id="file-upload2" 
+          style="display:none"
+          onchange="document.getElementById('overlay3').classList.remove('hidden');
+                    document.getElementById('file-upload-form2').submit();">
+        </form>
+        <i class="material-icons nav__icon">photo_camera</i>
+        <span class="nav__text">Scan</span>
+      </label>
+
     <a href="/history" class="nav__link">
       <i class="material-icons nav__icon">history</i>
       <span class="nav__text">History</span>

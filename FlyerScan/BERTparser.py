@@ -18,7 +18,7 @@ summarizer = pipeline(
 
 def BertGens(text):
 
-    titleSum = summarizer(text, max_length=4, min_length=1, do_sample=False)
+    titleSum = summarizer(text, max_length=8, min_length=1, do_sample=False)
     title = titleSum[0]['summary_text']
 
     entities = ner_model(text)
@@ -29,12 +29,6 @@ def BertGens(text):
     end_time = None
     location = None
     description = None
-
-    for entity in entities:
-        if entity['entity_group'] == 'DATE' and not date:
-            date = entity['word']
-        if entity['entity_group'] == 'LOC' and not location:
-            location = entity['word']
 
     # Extract start and end times
     time_pattern = re.compile(r'(\d{1,2}:\d{2}\s*[AP]M)\s*-\s*(\d{1,2}:\d{2}\s*[AP]M)')
@@ -52,12 +46,20 @@ def BertGens(text):
     date_match = date_pattern.search(text)
     if date_match:
         date = date_match.group(1)
+    else:
+        for entity in entities:
+            if entity['entity_group'] == 'DATE' and not date:
+                date = entity['word']
 
     # Use regex to extract the location
     location_pattern = re.compile(r'(Location\s*:\s*)([^\n]+)')
     location_match = location_pattern.search(text)
     if location_match:
         location = location_match.group(2)
+    else:
+        for entity in entities:
+            if entity['entity_group'] == 'LOC' and not location:
+                location = entity['word']
 
     fields = {
         "title": title,
@@ -69,6 +71,5 @@ def BertGens(text):
         "desc": description
     }
 
-    print(fields)
     return fields
 
