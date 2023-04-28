@@ -347,6 +347,10 @@ def startEventParsing(imageURLorPath):
                 bertFields['date'] = fields['date']
             if bertFields['start_time'] is None and fields['start_time'] is not None:
                 bertFields['start_time'] = fields['start_time']
+            if len(str(bertFields['title'])) < len(str(fields['title'])):
+                bertFields['title'] = fields['title']
+            if len(str(bertFields['location'])) < len(str(fields['location'])):
+                bertFields['location'] = fields['location']
             return bertFields
         
         return fields
