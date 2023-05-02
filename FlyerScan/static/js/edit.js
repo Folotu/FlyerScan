@@ -103,6 +103,14 @@ function deleteFlyer(){
   xhttp.send();
 }
 
+function confirmDeletion(){
+  if (confirm("Are you sure you want to delete this flyer?")){
+    deleteFlyer()
+  } else{
+    
+  }
+}
+
 function checkFields() {
   let title = document.getElementById('title');
   let date = document.getElementById('date');
