@@ -198,14 +198,14 @@ def extract_text(image_path):
         imageData = imageResize(image_path)
         # Perform OCR using API
         text = ocr_space_url(url=None, fileData=imageData)
-        with open('outputWithAPI.txt', 'w', encoding="utf-8") as f:
-            f.write(text)
+        # with open('outputWithAPI.txt', 'w', encoding="utf-8") as f:
+        #     f.write(text)
     else:
         # Perform OCR using API
         # text = ocr_space_file(filename=image_path)
         text = ocr_space_url(url=image_path, fileData=None)
-        with open('outputWithAPI.txt', 'w', encoding="utf-8") as f:
-            f.write(text)
+        # with open('outputWithAPI.txt', 'w', encoding="utf-8") as f:
+        #     f.write(text)
 
     return text
 
@@ -266,7 +266,8 @@ def find_fields(text):
         'end_time': end_time,
         'location': loc,
         'desc': desc,
-        'org': org
+        'org': org,
+        'OCRText': text,
     }
     return fields
 
@@ -339,10 +340,16 @@ def startEventParsing(imageURLorPath):
         #title, date, time, startime, endtime, desc, location = calendarGen(fields=fields)
 
         if not fields['start_time'] or fields['date']:
-            from .BERTparser import BertGens
-            f = open("outputWithApi.txt", "r", encoding="utf8")
+            # from .BERTparser import BertGens
+            # f = open("outputWithAPI.txt", "r", encoding="utf8")
             print("Used BERT1")
-            bertFields = BertGens(f.read())
+            # bertFields = BertGens(f.read())
+            # data = {"text": f.read()}
+            data = {"text": fields['OCRText']}
+            BERTurl = "http://127.0.0.1:8000/flyerScanBERT"
+            response = requests.post(BERTurl, json=data)
+            bertFields = response.json()
+
             if bertFields['date'] is None and fields['date'] is not None:
                 bertFields['date'] = fields['date']
             if bertFields['start_time'] is None and fields['start_time'] is not None:
@@ -359,7 +366,7 @@ def startEventParsing(imageURLorPath):
         print("Error:", e)
         try: 
             from .BERTparser import BertGens
-            f = open("outputWithApi.txt", "r")
+            f = open("outputWithAPI.txt", "r")
             print("Used BERT")
             return BertGens(f.read())
             

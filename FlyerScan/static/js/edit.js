@@ -45,28 +45,28 @@ window.onload = function() {
   let activeButton = null;
   let recognition = null;
 
-function speechToText(button, inputID, inputType) {;
+function speechToText(button, inputID, inputType) {
   let inputElem = document.getElementById(inputID);
-    //console.log(inputElem)
 
   if (activeButton && (activeButton !== button)){
     recognition.stop();
     activeButton.classList.remove('active');
   }
 
-  recognition = new webkitSpeechRecognition();
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
   recognition.lang = 'en-US';
   recognition.onresult = function(event) {
-    var transcript = event.results[0][0].transcript;
+    const transcript = event.results[0][0].transcript;
     //console.log(transcript);
     if (inputType === 'date'){
-      var transcript = event.results[0][0].transcript;
-      transcript = transcript.replace(/\s/g, '')
-      transcript = transcript.replace(/dash/gi, "-");
-      let date = new Date(transcript);
-      let year = date.getFullYear();
-      let month = ('0' + (date.getMonth() + 1)).slice(-2);
-      let day = ('0' + date.getDate()).slice(-2);
+      let transcript = event.results[0][0].transcript;
+      transcript = transcript.replace(/\s/g, '');
+      transcript = transcript.replace(/dash/gi, '-');
+      const date = new Date(transcript);
+      const year = date.getFullYear();
+      const month = ('0' + (date.getMonth() + 1)).slice(-2);
+      const day = ('0' + date.getDate()).slice(-2);
       //console.log('Year:', year, 'Month:', month, 'Day:', day);
       transcript = year +"-" + month + "-" + day;
       //console.log(transcript);

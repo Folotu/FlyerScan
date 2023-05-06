@@ -1,5 +1,10 @@
 import re
 from transformers import pipeline, AutoModelForTokenClassification, AutoTokenizer, BartForConditionalGeneration
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
 
 custom_cache_dir = "../HuggingFaceModels"
 
@@ -16,7 +21,13 @@ summarizer = pipeline(
     tokenizer=AutoTokenizer.from_pretrained('sshleifer/distilbart-cnn-12-6', cache_dir=custom_cache_dir)
 )
 
-def BertGens(text):
+@app.route('/flyerScanBERT', methods=['POST'])
+def BertGens():
+    data = request.get_json()
+    text = data.get('text')
+
+    if not text:
+        return jsonify({"error": "No text input provided"}), 400
 
     titleSum = summarizer(text, max_length=8, min_length=1, do_sample=False)
     title = titleSum[0]['summary_text']
@@ -71,5 +82,5 @@ def BertGens(text):
         "desc": description
     }
 
-    return fields
+    return jsonify(fields)
 
