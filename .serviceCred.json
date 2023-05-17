@@ -1,12 +1,1 @@
-{
-  "type": "service_account",
-  "project_id": "caramel-core-310004",
-  "private_key_id": "cc6bc5d9e839808b94916a74da3ab4a6f489e631",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC6Bu2fl17on/yg\npgBupbMtZjRIIMMOQ3bbaC2L1vhAlMPewm4Q6T5Qp5FQH1Y1D27PRd4fw/Cyaa81\nK1AFBgEWBXa55pPzJcpBhldjBjB2pItwn8HyF0mNauSiDhITDgx7qltr4WwIFxYY\nzgCd9DgiQ1PC7Kxr51CveDI8gSYjvPUSSNOpT6OCDSe4hNvZRg+DLF78cQlqzpQX\nro2rb1zCOmrlbc/FzVERQLWL67b8tKSjYK599sO6m1c2gGuCKck5qEKxq6q1Ilkq\nhgBslxYjErM9UOOqCMo2fVW6mhAqrq2JYBxrrltdvmPnJQf2ui/rIY6nM8s0LIxC\niWFtHq1HAgMBAAECggEAFhvur/IAoKsrDjjMgloFMpccDZp/NDnGbYszJpSVCq/j\nm50GEdJ2yoUv2xLuXv4HkHDgVmwmNj4jSbFtIDu3c1OQ6cVCvjo2kJUT27wHlII3\n5FnIZipoXnte0vfTJBqeVzBHD0pKWafMw4PwRNWauk/AK8GPOH/UchZZ+iDrVIHT\nyvNwG8mKaBlZskbyaJ1NyxxGGdM+yTbI+PWlu7NYf7nzC0SyB6CcFqhOdzBEgz73\nbKqa2+X1FyMnznjxxN1qvmD25QRLwbTsD8kuRR7zDIKYlLqXIeuD6DyyJZxMAZvZ\nMoKOVZBxqJ8L8Ika5qiq0uf5exQCOZB6v7rEV4bLCQKBgQDbn978MYHMjE//g6ZI\nuVqoQMXFjuYEeB3QFcZaqbajgY5NR50iZD3P8JFWkkGLnK5zU7DIkfUATWUeVx9v\ntdybc7w0hG5oA9ZL23JFu/KioGrwZvtnJrFuuuf7pK8rafY1Sh+KleYw/N22Dtrb\nIVyNh51RIkPPh5HTcvflcUsAewKBgQDY1oSxI0gyV3XG5mUkWEuwmscOfxUjf8To\nK11Yysxngqd9L6draBzoMHskOdRhW8TD+axuCjeywo8Yk6EAE7cOSxu0Dm/RNATn\nII//PYkRSgEn7M8qAB2M217YlIGRX2gVcAB8Ae3sF/StM4bVQENTMZDIYUstvpef\nRDIim+q6pQKBgEJWCJEeFvmEjAk+Z3Rh3/sgDVx9rAY/jamzWgU6a7r5P9Uhw1mG\n85CiNhPy+y9DNQIKjkQWqezcc6V1ZT5lrOubSoaGVZ6/QfQJpXtgqInscECKqnbe\nngs3EyjT9kDjsYUpDVvbqPq09fauh/ZWHlF1W9QMyHSfmzFF8ZBw5tmPAoGAP8Yf\n8qVI152Hgz9B4gWiBUgQYYAY7H7on8wZQUMsCQmRTy1T1TAiyFtx7D6h6xx9a5Ik\nF50jsoysX3MT+BzUSvzmIffZBTOCeaPHFi+3/4C/hEmOyHCOQF5Ir/RFg0cHKr7t\nNYuvuS92g/ZSoqeq5W3/gh+zZ7nViD8ba7hlug0CgYB3yOCGj23bktQvVh93KeP+\n9XT6R4pxoDcG9ZPTwXAw3e/TDiX3OwslC3ij1YjSPmLrm9WyX85BpiBMsYqkXx13\nY0lXlOyR49BcTAvpocAMB0mOGizti09pxQm4gBC7+SrRBDVA2SJ9YnCcTQyqwWVH\nomECfrqOpF7A83Wcu3ksPg==\n-----END PRIVATE KEY-----\n",
-  "client_email": "flyerscan-service-account@caramel-core-310004.iam.gserviceaccount.com",
-  "client_id": "101180797982926700232",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/flyerscan-service-account%40caramel-core-310004.iam.gserviceaccount.com"
-}
+
