@@ -17,16 +17,14 @@ import arrow
 from dotenv import load_dotenv
 load_dotenv()
 
-# try: 
-#     nltk.data.find('tokenizers/punkt')
-#     nltk.data.find('averaged_perceptron_tagger')
-#     nltk.data.find('tokenizers/maxent_ne_chunker')
-#     nltk.data.find('tokenizers/words')
-# except LookupError: 
-#     nltk.download('punkt')
-#     nltk.download('averaged_perceptron_tagger')
-#     nltk.download('maxent_ne_chunker')
-#     nltk.download('words')
+resources = ['tokenizers/punkt', 'taggers/averaged_perceptron_tagger', 
+             'chunkers/maxent_ne_chunker', 'corpora/words']
+
+for resource in resources:
+    try:
+        nltk.data.find(resource)
+    except LookupError:
+        nltk.download(resource.split('/')[-1])
 
 def createOverlay(image_file_name, json_file_data):
     unicode_font_name = "Fonts/BOD_R.ttf"
